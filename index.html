@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nora Dim — Operational Infrastructure Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1F3A;
+    --navy-2:#12294D;
+    --cyan:#17A6E0;
+    --paper:#F5F4EF;
+    --paper-2:#EDEBE2;
+    --amber:#E08A3C;
+    --slate:#5B6B7C;
+    --line: rgba(11,31,58,0.14);
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --disp: 'Space Grotesk', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--navy);
+    font-family:var(--sans);
+    line-height:1.6;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* background kept plain per request — grid texture removed */
+  .grid-bg{
+    background: var(--paper);
+  }
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  /* HEADER / NAV */
+  header.top{
+    position:sticky; top:0; z-index:50;
+    background:rgba(245,244,239,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px; max-width:1180px; margin:0 auto;
+  }
+  .brand{font-family:var(--mono); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--navy);}
+  .brand b{color:var(--cyan);}
+  .status-pill{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
+    color:var(--slate); border:1px solid var(--line); border-radius:20px;
+    padding:5px 12px; display:flex; align-items:center; gap:6px;
+  }
+  .status-pill .dot{width:6px; height:6px; border-radius:50%; background:var(--cyan); display:inline-block;}
+
+  /* HERO */
+  .hero{
+    padding:56px 0 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  .doc-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--navy); background:var(--paper-2); border:1px solid var(--line);
+    padding:6px 12px 6px 6px; border-radius:4px; margin-bottom:28px;
+  }
+  .doc-tag .sq{width:18px; height:18px; background:var(--cyan); border-radius:2px; display:inline-block;}
+  h1.hero-title{
+    font-family:var(--disp); font-weight:700;
+    font-size:clamp(26px, 3.8vw, 42px);
+    line-height:1.15; letter-spacing:-0.01em;
+    margin:0 0 22px;
+    max-width:880px;
+    text-align:justify;
+  }
+  .hero-break{display:none;}
+  @media (min-width:640px){ .hero-break{display:inline; content:"";} }
+  h1.hero-title em{
+    font-style:normal; color:var(--cyan);
+  }
+  .hero-sub{
+    font-size:18px; color:var(--slate); max-width:820px; margin:0 0 36px; text-align:justify;
+  }
+  .meta-row{
+    display:flex; flex-wrap:wrap; gap:0;
+    border-top:1px solid var(--line);
+    margin-top:36px;
+  }
+  .meta-item{
+    flex:1 1 220px;
+    padding:16px 20px 16px 16px;
+    border-right:1px solid var(--line);
+  }
+  .meta-item:first-child{padding-left:0;}
+  .meta-item:last-child{border-right:none;}
+  .meta-item .k{font-family:var(--mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate); margin-bottom:6px;}
+  .meta-item .v{font-family:var(--disp); font-weight:600; font-size:15px; color:var(--navy);}
+
+  /* SECTION SCAFFOLDING */
+  section{padding:64px 0; border-top:1px solid var(--line);}
+  .sec-label{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--cyan); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .sec-label::before{content:''; width:22px; height:1px; background:var(--cyan);}
+  h2.sec-title{
+    font-family:var(--disp); font-weight:600; font-size:clamp(24px,3vw,32px);
+    margin:0 0 20px; letter-spacing:-0.01em;
+  }
+  .lede{font-size:16.5px; color:var(--navy); max-width:920px; margin-bottom:8px; text-align:justify;}
+  .lede.muted{color:var(--slate);}
+
+  /* CONTEXT */
+  .context-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:32px;}
+  @media (max-width:720px){.context-grid{grid-template-columns:1fr;}}
+  .context-grid h3{font-family:var(--disp); font-size:16px; margin:0 0 10px; color:var(--navy);}
+  .context-grid p{color:var(--slate); font-size:15px; margin:0; text-align:justify;}
+
+  /* DIAGRAM */
+  .diagram-panel{
+    background:var(--navy); border-radius:6px; padding:36px 28px 28px;
+    margin-top:36px; position:relative; overflow:hidden;
+  }
+  .diagram-panel .panel-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:22px; flex-wrap:wrap; gap:8px;
+  }
+  .diagram-panel .panel-title{font-family:var(--mono); color:#fff; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.85;}
+  .diagram-panel .panel-key{font-family:var(--mono); color:var(--cyan); font-size:11px;}
+  svg.org{width:100%; height:auto; display:block;}
+  .org-node rect{fill:#0F2544; stroke:#2C4F76; stroke-width:1;}
+  .org-node.accent rect{stroke:var(--cyan); stroke-width:1.4;}
+  .org-node text{fill:#EAF3FA; font-family:var(--mono); font-size:10.5px;}
+  .org-node .sub{fill:#8AA6C2; font-size:9px;}
+  .org-link{stroke:#2C4F76; stroke-width:1.2; fill:none;}
+  .org-link.draw{
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: draw 1.6s ease forwards;
+  }
+  @keyframes draw{ to { stroke-dashoffset:0; } }
+
+  /* SYSTEMS LIST */
+  .systems{display:flex; flex-direction:column; margin-top:8px;}
+  .sys-item{
+    display:grid; grid-template-columns:64px 1fr;
+    gap:24px; padding:28px 0; border-top:1px solid var(--line);
+  }
+  .sys-item:first-child{border-top:none;}
+  .sys-num{font-family:var(--mono); font-size:13px; color:var(--cyan); padding-top:3px;}
+  .sys-item h3{font-family:var(--disp); font-size:19px; margin:0 0 8px; font-weight:600;}
+  .sys-item p{color:var(--slate); font-size:15px; margin:0 0 14px; max-width:820px; text-align:justify;}
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:var(--mono); font-size:11px; color:var(--navy);
+    background:var(--paper-2); border:1px solid var(--line);
+    padding:4px 9px; border-radius:3px;
+  }
+
+  /* PROGRESSION TABLE (cadre system) */
+  .cadre-panel{margin-top:36px; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#fff;}
+  .cadre-row{
+    display:grid; grid-template-columns: 90px 1fr 120px;
+    align-items:center; padding:14px 18px; border-top:1px solid var(--line);
+    gap:16px;
+  }
+  .cadre-row:first-child{border-top:none; background:var(--navy); color:#fff;}
+  .cadre-row:first-child .c-rank, .cadre-row:first-child .c-desc, .cadre-row:first-child .c-req{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:#C9DCEA;
+  }
+  .c-rank{font-family:var(--mono); font-weight:600; font-size:13px; color:var(--navy);}
+  .c-desc{font-size:14px; color:var(--slate);}
+  .c-desc b{color:var(--navy); font-weight:600;}
+  .c-req{font-family:var(--mono); font-size:12px; color:var(--cyan); text-align:right;}
+  @media (max-width:640px){
+    .cadre-row{grid-template-columns:70px 1fr; }
+    .c-req{grid-column:1/3; text-align:left; padding-top:4px;}
+  }
+
+  /* PHASE STRIP */
+  .phase-strip{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); margin-top:32px; border:1px solid var(--line); border-radius:6px; overflow:hidden;}
+  @media (max-width:720px){.phase-strip{grid-template-columns:1fr;}}
+  .phase{background:#fff; padding:24px 22px;}
+  .phase .p-eyebrow{font-family:var(--mono); font-size:11px; color:var(--cyan); letter-spacing:0.06em; margin-bottom:10px;}
+  .phase h4{font-family:var(--disp); font-size:16px; margin:0 0 8px;}
+  .phase p{font-size:13.5px; color:var(--slate); margin:0; text-align:justify;}
+
+  /* APPROACH */
+  .approach-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px; border:1px solid var(--line); border-radius:6px; overflow:hidden;}
+  @media (max-width:720px){.approach-grid{grid-template-columns:1fr;}}
+  .approach-item{background:#fff; padding:22px;}
+  .approach-item .a-tag{font-family:var(--mono); font-size:10.5px; color:var(--amber); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:8px;}
+  .approach-item h4{font-family:var(--disp); font-size:15.5px; margin:0 0 6px;}
+  .approach-item p{font-size:13.5px; color:var(--slate); margin:0; text-align:justify;}
+
+  /* FOOTER / CONFIDENTIALITY NOTE */
+  .conf-note{
+    margin-top:40px; padding:18px 20px; border:1px dashed var(--line);
+    border-radius:6px; font-family:var(--mono); font-size:12.5px; color:var(--slate);
+    display:flex; gap:12px; align-items:flex-start;
+  }
+  .conf-note .icon{color:var(--amber); flex-shrink:0;}
+
+  footer{padding:48px 0 64px; border-top:1px solid var(--line);}
+  .footer-grid{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px;}
+  .footer-name{font-family:var(--disp); font-weight:600; font-size:20px;}
+  .footer-role{color:var(--slate); font-size:14px; margin-top:4px;}
+  .footer-contact{font-family:var(--mono); font-size:13px; color:var(--cyan);}
+</style>
+</head>
+<body class="grid-bg">
+
+<header class="top">
+  <div class="topbar">
+    <div class="brand">NORA DIM</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none;">
+    <h1 class="hero-title">Designing the operating system for a <em>Web3 workforce</em> and community economy.</h1>
+    <p class="hero-sub">How a single-founder concept became a documented org structure, a nine-tier contributor progression, a partner-facing training academy, and a phased go-to-market — built from zero.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><div class="k">Client</div><div class="v">[Client] — Web3 workforce &amp; community platform</div></div>
+      <div class="meta-item"><div class="k">Role</div><div class="v">Sr. Project Manager / Operations Architect</div></div>
+      <div class="meta-item"><div class="k">Scope</div><div class="v">Organizational design, training systems, GTM strategy</div></div>
+      <div class="meta-item"><div class="k">Status</div><div class="v">Live framework, Phase 1</div></div>
+    </div>
+  </section>
+
+  <section id="context">
+    <h2 class="sec-title">A concept with no operating structure yet</h2>
+    <p class="lede">[Client] set out to connect a Nigerian workforce to roles on a large-scale infrastructure initiative, [Flagship Infrastructure Project] — spanning renewables, Web3 systems, and advanced construction — using a token-gated community model. The idea existed. The org chart, the training pipeline, the referral economy, and the campaign sequencing did not.</p>
+    <div class="context-grid">
+      <div>
+        <h3>The gap</h3>
+        <p>No documented reporting lines, no defined path from "new recruit" to "trained, revenue-generating contributor," and no shared plan for how outreach, training, and investment messaging should sequence over time.</p>
+      </div>
+      <div>
+        <h3>The brief</h3>
+        <p>Translate a founder's vision into an operable structure: who reports to whom, how a person moves from interest to onboarded contributor, what they're trained on, and how the wider campaign builds trust in phases rather than all at once.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="structure">
+    <h2 class="sec-title">Organizational structure &amp; symbol key</h2>
+    <p class="lede muted">Built the full organogram from founder down through strategist, sales, and media functions — with a symbol key distinguishing established headcount, contract staff, active vacancies, and the Partnership Liaison Officers tier, plus a dashed line marking where the animation role specifically (not the wider media unit) reports externally rather than in-house — so the founder could see capacity gaps at a glance.</p>
+
+    <div class="diagram-panel">
+      <div class="panel-head">
+        <span class="panel-title">[Client] — Organogram (recreated, confidential names removed)</span>
+        <span class="panel-key">● established &nbsp; ○ vacancy &nbsp; ┈ external report</span>
+      </div>
+      <svg class="org" viewBox="0 0 990 360" xmlns="http://www.w3.org/2000/svg">
+        <!-- links -->
+        <path class="org-link draw" d="M480,60 L480,95" style="animation-delay:0s"/>
+        <path class="org-link draw" d="M480,95 L480,130" style="animation-delay:0.1s"/>
+        <path class="org-link draw" d="M480,150 L150,150 L150,178" style="animation-delay:0.2s"/>
+        <path class="org-link draw" d="M480,150 L340,150 L340,178" style="animation-delay:0.25s"/>
+        <path class="org-link draw" d="M480,150 L480,178" style="animation-delay:0.3s"/>
+        <path class="org-link draw" d="M480,150 L720,150 L720,178" style="animation-delay:0.35s"/>
+        <path class="org-link draw" d="M150,198 L150,225" style="animation-delay:0.45s"/>
+        <path class="org-link draw" d="M150,245 L150,270" style="animation-delay:0.5s"/>
+        <path class="org-link draw" d="M150,290 L150,315" style="animation-delay:0.55s"/>
+        <path class="org-link draw" d="M720,198 L558,198 L558,225" style="animation-delay:0.45s"/>
+        <path class="org-link draw" d="M720,198 L644,198 L644,225" style="animation-delay:0.5s"/>
+        <path class="org-link draw" d="M720,198 L730,198 L730,225" style="animation-delay:0.55s"/>
+        <path class="org-link draw" d="M720,198 L816,198 L816,225" style="animation-delay:0.6s"/>
+        <path class="org-link draw" d="M720,198 L902,198 L902,225" style="animation-delay:0.65s"/>
+        <path class="org-link" d="M925,225 L925,60 L870,60" stroke-dasharray="4 5" style="animation:none; stroke:#5A7B9C;"/>
+
+        <!-- founder -->
+        <g class="org-node accent"><rect x="430" y="20" width="100" height="40" rx="4"/><text x="480" y="36" text-anchor="middle">FOUNDER</text><text x="480" y="50" text-anchor="middle" class="sub">1 · established</text></g>
+        <!-- Sr PM -->
+        <g class="org-node accent"><rect x="415" y="110" width="130" height="40" rx="4"/><text x="480" y="126" text-anchor="middle">SR. PROJECT MGR</text><text x="480" y="140" text-anchor="middle" class="sub">1 · established</text></g>
+
+        <!-- external node, connected by dashed link -->
+        <g class="org-node"><rect x="870" y="42" width="80" height="34" rx="4" style="fill:#12294D; stroke:#5A7B9C;"/><text x="910" y="63" text-anchor="middle" style="font-size:9.5px">EXTERNAL</text></g>
+
+        <!-- four branches -->
+        <g class="org-node"><rect x="90" y="178" width="120" height="40" rx="4"/><text x="150" y="194" text-anchor="middle" style="font-size:9px">PLO TIER</text><text x="150" y="208" text-anchor="middle" class="sub">4 levels · open</text></g>
+        <g class="org-node"><rect x="280" y="178" width="120" height="40" rx="4"/><text x="340" y="194" text-anchor="middle">COMMUNITY MGRS</text><text x="340" y="208" text-anchor="middle" class="sub">4 · established</text></g>
+        <g class="org-node"><rect x="420" y="178" width="120" height="40" rx="4"/><text x="480" y="194" text-anchor="middle">SALES</text><text x="480" y="208" text-anchor="middle" class="sub">3 · expected</text></g>
+        <g class="org-node"><rect x="660" y="178" width="160" height="40" rx="4"/><text x="740" y="194" text-anchor="middle">MEDIA STRATEGIST</text><text x="740" y="208" text-anchor="middle" class="sub">1 · established</text></g>
+
+        <!-- community tier stack -->
+        <g class="org-node"><rect x="95" y="225" width="110" height="30" rx="4"/><text x="150" y="244" text-anchor="middle" style="font-size:9.5px">TIER 4a / 4b</text></g>
+        <g class="org-node"><rect x="95" y="270" width="110" height="30" rx="4"/><text x="150" y="289" text-anchor="middle" style="font-size:9.5px">TIER 3a / 3b</text></g>
+        <g class="org-node"><rect x="95" y="315" width="110" height="30" rx="4"/><text x="150" y="334" text-anchor="middle" style="font-size:9.5px">TIER 2a/2b · 1a/1b</text></g>
+
+        <!-- media sub -->
+        <g class="org-node"><rect x="520" y="225" width="76" height="34" rx="4"/><text x="558" y="246" text-anchor="middle" style="font-size:9.5px">WRITERS</text></g>
+        <g class="org-node"><rect x="606" y="225" width="76" height="34" rx="4"/><text x="644" y="246" text-anchor="middle" style="font-size:9.5px">VIDEO</text></g>
+        <g class="org-node"><rect x="692" y="225" width="76" height="34" rx="4"/><text x="730" y="246" text-anchor="middle" style="font-size:9.5px">SPACE HOST</text></g>
+        <g class="org-node"><rect x="778" y="225" width="76" height="34" rx="4"/><text x="816" y="246" text-anchor="middle" style="font-size:9.5px">GRAPHICS</text></g>
+        <g class="org-node"><rect x="864" y="225" width="76" height="34" rx="4"/><text x="902" y="246" text-anchor="middle" style="font-size:9.5px">ANIMATION</text></g>
+      </svg>
+    </div>
+  </section>
+
+  <section id="progression">
+    <h2 class="sec-title">A nine-tier contributor progression system</h2>
+    <p class="lede muted">Designed a cadre/rank system so every Partnership Liaison Officer has a visible path forward — entry criteria, referral thresholds, monthly pay bands, and unlocked incentives at each level. Tiers 1 through 4 are each split into two stages, so the full ladder runs nine steps deep: one entry stage plus two stages within each of the four tiers.</p>
+
+    <div class="cadre-panel">
+      <div class="cadre-row">
+        <div class="c-rank">Rank</div><div class="c-desc">What the stage represents</div><div class="c-req">Unlock</div>
+      </div>
+      <div class="cadre-row"><div class="c-rank">Tier 0</div><div class="c-desc"><b>Entry stage</b> — completes foundational training and orientation before taking on responsibilities.</div><div class="c-req">Access to Academy</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 1a</div><div class="c-desc"><b>New contributor</b> — entry-level minimum invite threshold, no referral-purchase requirement yet.</div><div class="c-req">Referral commission</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 1b</div><div class="c-desc"><b>Established contributor</b> — same tier, higher invite volume and first referral-purchase minimum introduced.</div><div class="c-req">Entry-level Academy access</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 2a</div><div class="c-desc"><b>Consistent performer</b> — doubled invite volume; leads a small team within Tier 1.</div><div class="c-req">Team lead rights</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 2b</div><div class="c-desc"><b>Multi-tasking contributor</b> — higher referral-purchase minimum than 2a, same team-lead scope.</div><div class="c-req">Team lead rights</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 3a</div><div class="c-desc"><b>High-volume contributor</b> — priority placement into paid roles as they open.</div><div class="c-req">Job-placement priority</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 3b</div><div class="c-desc"><b>Adaptable communicator</b> — higher referral-purchase minimum, same placement priority.</div><div class="c-req">Job-placement priority</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 4a</div><div class="c-desc"><b>Top-tier closer</b> — brand-ambassador status begins here.</div><div class="c-req">Ambassador status</div></div>
+      <div class="cadre-row"><div class="c-rank">Tier 4b</div><div class="c-desc"><b>Apex tier</b> — highest referral thresholds in the ladder, maximum influence.</div><div class="c-req">Ambassador status</div></div>
+    </div>
+  </section>
+
+  <section id="onboarding">
+    <h2 class="sec-title">Recruitment, onboarding &amp; referral workflows</h2>
+    <p class="lede muted">Mapped the full journey from first contact to active, trained contributor across three teams — an eleven-step flow that removed ambiguity about who owns each handoff.</p>
+    <div class="systems">
+      <div class="sys-item">
+        <div class="sys-num">01</div>
+        <div>
+          <h3>Recruit → Support → Core Team → Academy</h3>
+          <p>A recruit is registered, oriented on vision and structure by the Support Team, trained on foundational concepts by the Core Team, then routed to the Academy for hands-on platform training before returning to Support for final integration into the active pool.</p>
+          <div class="tag-row"><span class="tag">11-step flowchart</span><span class="tag">clear handoff ownership</span><span class="tag">registration → active pool</span></div>
+        </div>
+      </div>
+      <div class="sys-item">
+        <div class="sys-num">02</div>
+        <div>
+          <h3>Referral flow, separated from recruitment</h3>
+          <p>Referrals (as distinct from direct recruits) follow a shorter three-step path — captured, registered, and guided on platform interaction — so referral volume could be tracked independently of new-member onboarding.</p>
+          <div class="tag-row"><span class="tag">referral tracking</span><span class="tag">platform interaction guide</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plo">
+    <h2 class="sec-title">Partnership Liaison role &amp; training academy</h2>
+    <p class="lede muted">Defined a new contract role from scratch — the Partnership Liaison Officer — including its learning pathway, curriculum, and the advisory role (this engagement) accountable for the surrounding operational systems.</p>
+
+    <div class="approach-grid">
+      <div class="approach-item">
+        <div class="a-tag">Learning pathway</div>
+        <h4>13-step structured progression</h4>
+        <p>From internal culture (litepaper, community-builder training) through external skills (strategic communication, negotiation) to market analysis (tokenomics, asset classification), with digital badges gating advancement.</p>
+      </div>
+      <div class="approach-item">
+        <div class="a-tag">Role scope (this engagement)</div>
+        <h4>Strategic Technical Advisor</h4>
+        <p>Owned structural strategy for the Academy and PLO program, operational vetting of partner-sourced projects, risk mitigation for outreach activity, and workforce-curriculum alignment.</p>
+      </div>
+      <div class="approach-item">
+        <div class="a-tag">Governance tools applied</div>
+        <h4>RACI + 4-quadrant prioritization</h4>
+        <p>Used a RACI model to eliminate role confusion across the growing team, and an urgent/important matrix to keep the working roadmap focused on high-impact tasks.</p>
+      </div>
+      <div class="approach-item">
+        <div class="a-tag">2026 targets set</div>
+        <h4>100 liaison officers · 100,000 contributors</h4>
+        <p>Authored the year-one operational targets: 100 qualified Partnership Liaison Officers and 100,000 Community Builders by 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="campaign">
+    <h2 class="sec-title">Campaign strategy: pillars into phases</h2>
+    <p class="lede muted">Contributed to translating the platform's four messaging pillars — workforce, infrastructure, empowerment, and investment trust — into a three-phase go-to-market sequence, so outreach content always had a clear "why now."</p>
+    <div class="phase-strip">
+      <div class="phase">
+        <div class="p-eyebrow">Phase 1 — Awareness</div>
+        <h4>Introduce the problem &amp; solution</h4>
+        <p>Establishes the job-engine narrative and institutional trust to create early excitement.</p>
+      </div>
+      <div class="phase">
+        <div class="p-eyebrow">Phase 2 — Engagement</div>
+        <h4>Educate &amp; engage the community</h4>
+        <p>Surfaces training programs and project blueprints to demonstrate tangible, ongoing work.</p>
+      </div>
+      <div class="phase">
+        <div class="p-eyebrow">Phase 3 — Action</div>
+        <h4>Mobilize investment &amp; labor</h4>
+        <p>Invites the community to invest through trusted channels and apply for live roles.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="outreach">
+    <h2 class="sec-title">Partner &amp; community outreach mapping</h2>
+    <p class="lede muted">Built a working map of prospective community partners and voices for cross-promotion — tracking audience reach, existing relationships between communities, and a recommended approach for each, so outreach wasn't left to guesswork.</p>
+    <div class="tag-row" style="margin-top:20px;">
+      <span class="tag">community-by-community reach estimates</span>
+      <span class="tag">relationship mapping between partners</span>
+      <span class="tag">recurring X Space programming plan</span>
+      <span class="tag">speaker &amp; co-host rotation</span>
+    </div>
+  </section>
+
+  <section id="approach">
+    <h2 class="sec-title">How this was approached</h2>
+    <div class="context-grid">
+      <div>
+        <h3>Structure before scale</h3>
+        <p>Every system — org chart, progression tiers, onboarding flow — was documented before headcount grew, so growth didn't outpace clarity on who does what.</p>
+      </div>
+      <div>
+        <h3>Incentives designed alongside process</h3>
+        <p>Reward structures (commission, badges, ambassador status) were built into the same documents as the workflows they motivate, not bolted on afterward.</p>
+      </div>
+    </div>
+    <div class="conf-note">
+      <span class="icon">▲</span>
+      <span>This case study is built from real operational documents produced during the engagement. Client name, platform name, and any third-party identifiers have been replaced with placeholders — [Client] and [Flagship Infrastructure Project] — to preserve confidentiality. Structure, methodology, and role scope are represented accurately.</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-name">Nora Dim</div>
+      <div class="footer-role">Programme Operations &amp; Project Management · Ruptvate</div>
+    </div>
+    <div class="footer-contact">chinonyedim5@gmail.com</div>
+  </div>
+</footer>
+
+</body>
+</html>
