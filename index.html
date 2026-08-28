@@ -60,6 +60,29 @@
     padding:5px 12px; display:flex; align-items:center; gap:6px;
   }
   .status-pill .dot{width:6px; height:6px; border-radius:50%; background:var(--cyan); display:inline-block;}
+  .deliverables-nav{
+  position:relative;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+}
+.deliverables-nav > button{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+  color:var(--navy); background:var(--paper-2); border:1px solid var(--line);
+  padding:6px 14px; border-radius:20px; cursor:pointer;
+  display:flex; align-items:center; gap:6px;
+}
+.deliverables-nav .menu{
+  display:none; position:absolute; top:calc(100% + 8px); right:0;
+  background:#fff; border:1px solid var(--line); border-radius:6px;
+  min-width:260px; box-shadow:0 8px 24px rgba(11,31,58,0.12);
+  padding:6px; z-index:60;
+}
+.deliverables-nav:hover .menu, .deliverables-nav:focus-within .menu{ display:block; }
+.deliverables-nav .menu a{
+  display:block; padding:10px 12px; border-radius:4px;
+  color:var(--navy); text-decoration:none; font-family:var(--sans);
+  font-size:13px; letter-spacing:normal; text-transform:none; line-height:1.35;
+}
+.deliverables-nav .menu a:hover{ background:var(--paper-2); color:var(--cyan); }
 
   /* HERO */
   .hero{
@@ -223,10 +246,23 @@
 <header class="top">
   <div class="topbar">
     <div class="brand">NORA DIM</div>
-     <a href="Chinonye.Dim.OM - Resume.pdf" target="_blank" 
-       style="font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--navy); background:var(--paper-2); border:1px solid var(--line); padding:6px 14px; border-radius:20px; text-decoration:none;">
-      CV
-    </a>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="Chinonye.Dim.OM - Resume.pdf" target="_blank"
+         style="font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--navy); background:var(--paper-2); border:1px solid var(--line); padding:6px 14px; border-radius:20px; text-decoration:none;">
+        CV
+      </a>
+      <div class="deliverables-nav">
+        <button type="button">Deliverables ▾</button>
+        <div class="menu">
+          <a href="#structure">Organizational structure &amp; symbol key</a>
+          <a href="#progression">A nine-tier contributor progression system</a>
+          <a href="#onboarding">Recruitment, onboarding &amp; referral workflows</a>
+          <a href="#plo">Partnership Liaison role &amp; training academy</a>
+          <a href="#campaign">Campaign strategy: pillars into phases</a>
+          <a href="#outreach">Partner &amp; community outreach mapping</a>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
