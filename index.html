@@ -60,29 +60,52 @@
     padding:5px 12px; display:flex; align-items:center; gap:6px;
   }
   .status-pill .dot{width:6px; height:6px; border-radius:50%; background:var(--cyan); display:inline-block;}
-  .deliverables-nav{
+  .site-nav{
   position:relative;
   font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
 }
-.deliverables-nav > button{
-  font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+.site-nav > button.hamburger{
   color:var(--navy); background:var(--paper-2); border:1px solid var(--line);
-  padding:6px 14px; border-radius:20px; cursor:pointer;
-  display:flex; align-items:center; gap:6px;
+  width:34px; height:34px; border-radius:20px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:3px;
+  flex-direction:column; padding:0;
 }
-.deliverables-nav .menu{
+.site-nav > button.hamburger span{
+  display:block; width:16px; height:1.5px; background:var(--navy);
+}
+.site-nav .menu{
   display:none; position:absolute; top:calc(100% + 8px); right:0;
   background:#fff; border:1px solid var(--line); border-radius:6px;
-  min-width:260px; box-shadow:0 8px 24px rgba(11,31,58,0.12);
+  min-width:230px; box-shadow:0 8px 24px rgba(11,31,58,0.12);
   padding:6px; z-index:60;
 }
-.deliverables-nav:hover .menu, .deliverables-nav:focus-within .menu{ display:block; }
-.deliverables-nav .menu a{
+.site-nav:hover .menu, .site-nav:focus-within .menu{ display:block; }
+.site-nav .menu-item{ position:relative; }
+.site-nav .menu-item > a, .site-nav .menu-item > span.top-label{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:10px 12px; border-radius:4px;
+  color:var(--navy); text-decoration:none; font-family:var(--sans);
+  font-size:13px; letter-spacing:normal; text-transform:none; line-height:1.35;
+  cursor:pointer;
+}
+.site-nav .menu-item > a:hover, .site-nav .menu-item:hover > span.top-label{ background:var(--paper-2); color:var(--cyan); }
+.site-nav .menu-item .caret{ font-size:10px; color:var(--slate); }
+.site-nav .submenu{
+  display:none; position:absolute; top:0; right:calc(100% + 8px);
+  background:#fff; border:1px solid var(--line); border-radius:6px;
+  min-width:260px; box-shadow:0 8px 24px rgba(11,31,58,0.12);
+  padding:6px; z-index:61;
+}
+.site-nav .menu-item:hover .submenu, .site-nav .menu-item:focus-within .submenu{ display:block; }
+.site-nav .submenu a{
   display:block; padding:10px 12px; border-radius:4px;
   color:var(--navy); text-decoration:none; font-family:var(--sans);
   font-size:13px; letter-spacing:normal; text-transform:none; line-height:1.35;
 }
-.deliverables-nav .menu a:hover{ background:var(--paper-2); color:var(--cyan); }
+.site-nav .submenu a:hover{ background:var(--paper-2); color:var(--cyan); }
+@media (max-width:640px){
+  .site-nav .submenu{ position:static; box-shadow:none; border:none; margin-left:8px; min-width:0; }
+}
 
   /* HERO */
   .hero{
@@ -251,15 +274,22 @@
          style="font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--navy); background:var(--paper-2); border:1px solid var(--line); padding:6px 14px; border-radius:20px; text-decoration:none;">
         CV
       </a>
-      <div class="deliverables-nav">
-        <button type="button">Deliverables ▾</button>
+      <div class="site-nav">
+        <button type="button" class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
         <div class="menu">
-          <a href="#structure">Organizational structure &amp; symbol key</a>
-          <a href="#progression">A nine-tier contributor progression system</a>
-          <a href="#onboarding">Recruitment, onboarding &amp; referral workflows</a>
-          <a href="#plo">Partnership Liaison role &amp; training academy</a>
-          <a href="#campaign">Campaign strategy: pillars into phases</a>
-          <a href="#outreach">Partner &amp; community outreach mapping</a>
+          <div class="menu-item">
+            <span class="top-label">Works <span class="caret">◂</span></span>
+            <div class="submenu">
+              <a href="#structure">Organizational structure &amp; symbol key</a>
+              <a href="#progression">A nine-tier contributor progression system</a>
+              <a href="#onboarding">Recruitment, onboarding &amp; referral workflows</a>
+              <a href="#plo">Partnership Liaison role &amp; training academy</a>
+              <a href="#campaign">Campaign strategy: pillars into phases</a>
+              <a href="#outreach">Partner &amp; community outreach mapping</a>
+            </div>
+          </div>
+          <div class="menu-item"><a href="curriculum.html">Curriculum</a></div>
+          <div class="menu-item"><a href="publications.html">Publications</a></div>
         </div>
       </div>
     </div>
