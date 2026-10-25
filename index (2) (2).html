@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ruptvate — from existence to dominance</title>
+<meta name="description" content="Ruptvate brings builders, data teams and communities into one network where completed tasks count and rank is earned.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Schibsted+Grotesk:wght@400;500;700&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#E8E5DA; --bone2:#D9D5C6; --ink:#0C0C0B; --ink2:#1B1B19; --signal:#FF3B1F;
+  --line:2px solid var(--ink);
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --body:'Schibsted Grotesk',system-ui,sans-serif;
+  --mono:'Martian Mono',ui-monospace,monospace;
+  --gutter:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bone);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;text-align:center;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+.wrap{width:min(1120px,100% - 2*var(--gutter));margin-inline:auto}
+.narrow{width:min(720px,100% - 2*var(--gutter));margin-inline:auto}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.display{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.86;letter-spacing:-.005em}
+h1.display{font-size:clamp(3.6rem,13.5vw,10.5rem)}
+h2.display{font-size:clamp(2.6rem,8vw,6rem)}
+h3.display{font-size:clamp(1.8rem,4vw,2.6rem);line-height:.95}
+.hl{background:var(--signal);color:var(--ink);padding:0 .12em;display:inline-block}
+.lede{font-size:clamp(1.05rem,2vw,1.28rem);max-width:40ch;margin-inline:auto}
+p+p{margin-top:1em}
+
+/* ticker */
+.ticker{background:var(--ink);color:var(--bone);overflow:hidden;white-space:nowrap;border-bottom:var(--line)}
+.ticker-track{display:inline-flex;animation:tick 38s linear infinite;padding:9px 0}
+.ticker span{padding-inline:28px}
+.ticker b{color:var(--signal);font-weight:500}
+@keyframes tick{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}html{scroll-behavior:auto}}
+
+/* nav */
+header.top{position:sticky;top:0;z-index:30;background:var(--bone);border-bottom:var(--line)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+.brand{font-family:var(--display);font-weight:900;font-size:2rem;letter-spacing:.02em;text-decoration:none;line-height:1}
+.brand i{color:var(--signal);font-style:normal}
+nav.links{display:flex;gap:6px;align-items:center}
+nav.links a{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:9px 12px;border:2px solid transparent}
+nav.links a:hover,nav.links a[aria-current="page"]{border-color:var(--ink)}
+.menu-btn{display:none;border:var(--line);padding:8px 12px}
+@media (max-width:820px){
+  .menu-btn{display:block}
+  nav.links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--bone);border-bottom:var(--line);flex-direction:column;padding:12px var(--gutter) 20px}
+  nav.links.open{display:flex}
+  nav.links a{width:100%;padding:14px}
+}
+
+/* buttons */
+.btn{display:inline-block;font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:16px 26px;border:var(--line);background:var(--bone);box-shadow:5px 5px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink)}
+.btn.sig{background:var(--signal)}
+.btn.dark{background:var(--ink);color:var(--bone);box-shadow:5px 5px 0 var(--signal);border-color:var(--ink)}
+.btn.dark:hover{box-shadow:2px 2px 0 var(--signal)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.row{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+
+/* sections */
+section{padding:clamp(64px,10vw,130px) 0;border-bottom:var(--line)}
+section.dark{background:var(--ink);color:var(--bone)}
+section.dark .mono.k{color:var(--signal)}
+.k{display:block;margin-bottom:22px}
+.sec-head{margin-bottom:clamp(36px,6vw,70px)}
+.sec-head p{margin-top:22px}
+
+/* hero */
+.hero{padding-top:clamp(48px,8vw,100px)}
+.seg{display:inline-flex;border:var(--line);margin:0 auto 38px}
+.seg button{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;padding:13px 24px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bone)}
+.invite{display:none;margin:0 auto 28px;border:2px dashed var(--ink);padding:10px 18px;max-width:max-content}
+.invite.show{display:block}
+.hero h1{margin-bottom:34px}
+.hero .lede{margin-bottom:42px}
+
+/* slots */
+.slots-wrap{margin-top:clamp(56px,8vw,96px)}
+.slots{display:grid;grid-template-columns:repeat(10,1fr);max-width:760px;margin:26px auto 0;border-top:var(--line);border-left:var(--line)}
+.slots li{list-style:none;aspect-ratio:1;border-right:var(--line);border-bottom:var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em}
+.slots li:nth-child(7n+3){background:var(--ink);color:var(--bone)}
+@media (max-width:620px){.slots{grid-template-columns:repeat(6,1fr)}}
+.big-n{font-family:var(--display);font-weight:900;font-size:clamp(5rem,16vw,11rem);line-height:.8}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);border:var(--line);background:var(--bone)}
+.step{padding:clamp(28px,4vw,48px) 24px;border-right:var(--line)}
+.step:last-child{border-right:0}
+.step .no{font-family:var(--display);font-weight:900;font-size:5rem;line-height:.8;color:var(--signal);display:block;margin-bottom:16px}
+.step h3{margin-bottom:12px}
+@media (max-width:820px){.steps{grid-template-columns:1fr}.step{border-right:0;border-bottom:var(--line)}.step:last-child{border-bottom:0}}
+
+/* roles */
+.panel{display:none}
+.panel.on{display:block}
+.duo{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--bone);text-align:center}
+.duo>div{padding:clamp(28px,4vw,52px)}
+.duo>div+div{border-left:2px solid var(--bone)}
+.duo h3{margin-bottom:20px;color:var(--signal)}
+.duo ul{list-style:none}
+.duo li{padding:14px 0;border-top:1px solid rgba(232,229,218,.28)}
+.duo li:first-child{border-top:0}
+@media (max-width:820px){.duo{grid-template-columns:1fr}.duo>div+div{border-left:0;border-top:2px solid var(--bone)}}
+.roles-cta{margin-top:48px}
+
+/* ladder */
+.tracks{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,48px)}
+@media (max-width:820px){.tracks{grid-template-columns:1fr}}
+.track{border:var(--line);background:var(--bone)}
+.track>.mono{display:block;padding:14px;background:var(--ink);color:var(--bone)}
+.rung{padding:22px 16px;border-top:var(--line);position:relative}
+.rung:first-of-type{border-top:0}
+.rung strong{display:block;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:2.1rem;line-height:1}
+.rung small{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+.rung.hit{background:var(--signal)}
+.rung+.rung::before{content:"";position:absolute;left:50%;top:-14px;width:2px;height:26px;background:var(--ink);transform:translateX(-50%)}
+
+/* badge */
+.badge-card{border:2px solid var(--bone);padding:clamp(32px,6vw,72px) var(--gutter);position:relative}
+.badge-card .price{font-family:var(--display);font-weight:900;font-size:clamp(5rem,18vw,12rem);line-height:.8;color:var(--signal)}
+.tag{display:inline-block;border:2px solid var(--bone);padding:6px 12px;margin-bottom:26px}
+
+/* services */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:var(--line);background:var(--bone)}
+.pillar{padding:clamp(28px,4vw,48px) 22px;border-right:var(--line);display:flex;flex-direction:column;align-items:center;gap:14px}
+.pillar:last-child{border-right:0}
+.pillar ul{list-style:none;font-size:.95rem}
+.pillar li{padding:6px 0}
+.pillar .btn{margin-top:auto}
+@media (max-width:820px){.pillars{grid-template-columns:1fr}.pillar{border-right:0;border-bottom:var(--line)}.pillar:last-child{border-bottom:0}}
+.loop{margin-top:40px}
+
+/* views */
+.view{display:none}
+.view.on{display:block}
+.page-head{padding:clamp(56px,9vw,110px) 0 clamp(36px,6vw,64px);border-bottom:var(--line)}
+.back{display:inline-block;margin-bottom:34px;text-decoration:none;border-bottom:2px solid var(--ink)}
+
+/* forms */
+.form{display:grid;gap:22px;text-align:left;max-width:720px;margin:0 auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.f label{display:block;margin-bottom:8px}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:1rem;padding:14px;background:var(--bone);color:var(--ink);border:var(--line);border-radius:0;appearance:none}
+.f select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+.f textarea{min-height:130px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:3px solid var(--signal);outline-offset:0}
+.f .opt{opacity:.55}
+.form .btn{justify-self:center;margin-top:8px}
+.err{color:#B00;font-family:var(--mono);font-size:.74rem;text-align:center;min-height:1em}
+.note{font-size:.88rem;opacity:.75;text-align:center}
+.apply-grid{padding:clamp(48px,8vw,90px) 0}
+.done{display:none;border:var(--line);padding:clamp(28px,5vw,56px);max-width:720px;margin:0 auto;background:var(--bone)}
+.done.show{display:block}
+.reflink{display:flex;gap:0;margin:26px 0;border:var(--line)}
+.reflink input{flex:1;min-width:0;font-family:var(--mono);font-size:.78rem;padding:14px;background:var(--bone);border:0;text-align:center}
+.reflink button{background:var(--ink);color:var(--bone);padding:0 22px;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
+.pts{border:2px dashed var(--ink);padding:22px;margin-bottom:26px}
+.pts .big-n{font-size:5rem;display:block}
+
+/* dialogs */
+dialog{margin:auto;border:var(--line);background:var(--bone);color:var(--ink);width:min(640px,100% - 24px);max-height:92vh;padding:0;box-shadow:10px 10px 0 var(--ink)}
+dialog::backdrop{background:rgba(12,12,11,.72)}
+.dlg{padding:clamp(24px,4vw,44px);position:relative}
+.dlg h3{margin-bottom:10px}
+.dlg .lede{margin-bottom:26px;font-size:1rem}
+.x{position:absolute;top:10px;right:10px;width:42px;height:42px;border:var(--line);font-size:1.3rem;line-height:1}
+.x:hover{background:var(--ink);color:var(--bone)}
+.legal{text-align:left}
+.legal ul{padding-left:1.1em;display:grid;gap:12px;margin-top:20px}
+.ok{display:none}
+.ok.show{display:block;padding:20px 0}
+
+/* footer */
+footer{background:var(--ink);color:var(--bone);padding:clamp(56px,9vw,110px) 0 32px}
+footer .mega{font-size:clamp(3.4rem,15vw,12rem);color:var(--bone)}
+footer .mega i{color:var(--signal);font-style:normal}
+.tagline{margin:18px 0 40px;color:var(--signal)}
+.socials{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:44px}
+.socials a{border:2px solid var(--bone);padding:12px 18px;text-decoration:none}
+.socials a:hover{background:var(--bone);color:var(--ink)}
+.fine{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;border-top:1px solid rgba(232,229,218,.3);padding-top:26px}
+.fine button,.fine a{text-decoration:underline;text-underline-offset:4px}
+.soon{display:inline-block;margin-top:26px;border:2px dashed var(--bone);padding:8px 14px;opacity:.8}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-label="Announcement">
+  <div class="ticker-track mono" aria-hidden="false">
+    <span><b>■</b> Early Supporters Badge NFT</span><span>First 1,000 supporters</span><span>$100 each</span><span><b>■</b> Only 30 Commander spots</span><span>Lock in your link</span>
+    <span><b>■</b> Early Supporters Badge NFT</span><span>First 1,000 supporters</span><span>$100 each</span><span><b>■</b> Only 30 Commander spots</span><span>Lock in your link</span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#/" aria-label="Ruptvate home">RUPT<i>V</i>ATE</a>
+    <button class="menu-btn mono" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="links" id="nav" aria-label="Main">
+      <a href="#/" data-nav="/">Home</a>
+      <a href="#/services" data-nav="/services">Services</a>
+      <a href="#/apply" data-nav="/apply">Apply as Commander</a>
+      <a href="#" data-open="whitelist">Badge whitelist</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HOME ============ -->
+<div class="view" data-view="home">
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="seg" role="group" aria-label="Choose your role">
+        <button type="button" data-role="commander" aria-pressed="true">Commander</button>
+        <button type="button" data-role="scouter" aria-pressed="false">Scouter</button>
+      </div>
+      <div class="invite mono" id="invite">You’ve been invited to join <b id="inviteName">a Commander</b>’s squad</div>
+
+      <h1 class="display">Join early.<br>Lead a squad.<br>Earn from<br><span class="hl">verified work.</span></h1>
+      <p class="lede">Ruptvate brings builders, data teams and communities into one network where completed tasks count and rank is earned.</p>
+
+      <div class="row">
+        <a class="btn sig" id="heroCta" href="#/apply">Become a Commander</a>
+        <a class="btn" href="#/services">Explore Services</a>
+      </div>
+
+      <div class="slots-wrap">
+        <span class="mono k">Commander slots</span>
+        <div class="big-n">30</div>
+        <ul class="slots" id="slots" aria-label="30 Commander slots in total"></ul>
+        <p class="mono" style="margin-top:22px">Only 30 spots · Apply early to lock in your link</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">How it works</span>
+        <h2 class="display">Squads do the work.<br>Rank is the receipt.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="no">01</span><h3 class="display">Lead</h3><p>Commanders claim a referral link and invite Scouters to build a squad.</p></div>
+        <div class="step"><span class="no">02</span><h3 class="display">Deliver</h3><p>Squads coordinate real business data tasks: accurate, clean, on deadline.</p></div>
+        <div class="step"><span class="no">03</span><h3 class="display">Earn</h3><p>Every verified task earns points. Verified work moves you up the ranks.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark" id="roles">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">Pick your role</span>
+        <h2 class="display">Commander<br>or Scouter.</h2>
+        <div class="seg" role="group" aria-label="Role details" style="margin-top:34px;margin-bottom:0;border-color:var(--bone)">
+          <button type="button" data-role="commander" aria-pressed="true" class="role-tab">Commander</button>
+          <button type="button" data-role="scouter" aria-pressed="false" class="role-tab">Scouter</button>
+        </div>
+      </div>
+
+      <div class="panel on" data-panel="commander">
+        <div class="duo">
+          <div>
+            <h3 class="display">What you do</h3>
+            <ul>
+              <li>Claim 1 of the exclusive Commander referral links.</li>
+              <li>Invite Scouters using your referral link to build and lead your prospective squad.</li>
+              <li>Oversee task submission quality and keep your squad active.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="display">Rewards</h3>
+            <ul>
+              <li>Earn point overrides from all verified work completed by your squad.</li>
+              <li>Hit 25 verified squad tasks to mint your Commander NFT Badge.</li>
+              <li>Level up to Veteran, Master, and Super Commander (100 tasks) to unlock core employment opportunities.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roles-cta"><a class="btn sig" href="#/apply">Apply now</a></div>
+      </div>
+
+      <div class="panel" data-panel="scouter">
+        <div class="duo">
+          <div>
+            <h3 class="display">What you do</h3>
+            <ul>
+              <li>Complete assigned data-collection tasks accurately.</li>
+              <li>Submit clean entries and hit batch deadlines.</li>
+              <li>Work with your Commander to boost your squad’s verified completions.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="display">Rewards</h3>
+            <ul>
+              <li>Earn points for every single verified task submission.</li>
+              <li>Hit 25 verified tasks to mint your official Scouter NFT Badge.</li>
+              <li>Level up to Veteran, Master, and Super Scouter (100 tasks) to unlock the Commander Role.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roles-cta"><a class="btn sig" href="#/services">Explore Services</a></div>
+        <p class="note" style="margin-top:22px;color:var(--bone)">Scouters join through a Commander’s referral link.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ranks">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">The ladder</span>
+        <h2 class="display">Two tracks.<br>One way up.</h2>
+        <p class="lede">Rank is earned by verified tasks, nothing else.</p>
+      </div>
+      <div class="tracks">
+        <div class="track">
+          <span class="mono">Scouter track</span>
+          <div class="rung"><strong>Scouter</strong><small>Earn points per verified task</small></div>
+          <div class="rung hit"><strong>25 tasks</strong><small>Mint Scouter NFT Badge</small></div>
+          <div class="rung"><strong>Veteran</strong><small>Level up</small></div>
+          <div class="rung"><strong>Master</strong><small>Level up</small></div>
+          <div class="rung hit"><strong>Super Scouter</strong><small>100 tasks · unlocks the Commander role</small></div>
+        </div>
+        <div class="track">
+          <span class="mono">Commander track</span>
+          <div class="rung"><strong>Commander</strong><small>Point overrides on squad work</small></div>
+          <div class="rung hit"><strong>25 squad tasks</strong><small>Mint Commander NFT Badge</small></div>
+          <div class="rung"><strong>Veteran</strong><small>Level up</small></div>
+          <div class="rung"><strong>Master</strong><small>Level up</small></div>
+          <div class="rung hit"><strong>Super Commander</strong><small>100 tasks · unlocks core employment</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark" id="badge">
+    <div class="narrow">
+      <div class="badge-card">
+        <span class="tag mono">Coming soon</span>
+        <h2 class="display" style="margin-bottom:26px">Early Supporters<br>Badge NFT</h2>
+        <div class="price">$100</div>
+        <p class="mono" style="margin:22px 0 32px">Limited badge · first 1,000 supporters</p>
+        <button class="btn sig" data-open="whitelist">Apply for whitelist</button>
+        <p class="note" style="margin-top:26px;color:var(--bone)">Badges are membership badges, not investments. No profit is promised.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="svc-teaser">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">Beyond the squads</span>
+        <h2 class="display">Consulting. Campus.<br>Marketplace.</h2>
+        <p class="lede">Three services that feed each other.</p>
+      </div>
+      <a class="btn" href="#/services">Explore Services</a>
+    </div>
+  </section>
+
+  <section class="dark" style="border-bottom:0">
+    <div class="wrap">
+      <span class="mono k">Only 30 Commander spots</span>
+      <h2 class="display" style="margin-bottom:38px">Lock in<br>your link.</h2>
+      <a class="btn sig" href="#/apply">Become a Commander</a>
+    </div>
+  </section>
+</div>
+
+<!-- ============ SERVICES ============ -->
+<div class="view" data-view="services">
+  <div class="page-head">
+    <div class="wrap">
+      <a class="back mono" href="#/">‹ Back</a>
+      <h1 class="display" style="font-size:clamp(3.2rem,11vw,8.5rem)">Explore<br><span class="hl">Services</span></h1>
+      <p class="lede" style="margin-top:30px">Consulting, Digital Campus and Marketplace feed each other.</p>
+    </div>
+  </div>
+  <section>
+    <div class="wrap">
+      <div class="pillars">
+        <div class="pillar">
+          <span class="mono">01</span>
+          <h3 class="display">Consulting</h3>
+          <ul>
+            <li>Consulting and Advisory Services</li>
+            <li>Process Optimization</li>
+            <li>Emerging Technology Training</li>
+            <li>Workforce Development</li>
+            <li>Technological and Digital Transformation</li>
+          </ul>
+          <button class="btn" data-open="consulting">Request consulting</button>
+        </div>
+        <div class="pillar">
+          <span class="mono">02</span>
+          <h3 class="display">Digital Campus</h3>
+          <p>Training that leads to careers inside the Ruptvate ecosystem.</p>
+          <a class="btn" href="#/services/campus">Open campus</a>
+        </div>
+        <div class="pillar">
+          <span class="mono">03</span>
+          <h3 class="display">Marketplace</h3>
+          <p>Where MSMEs and vendors plug into the network.</p>
+          <button class="btn" data-open="register" data-type="MSME">Register as an MSME</button>
+        </div>
+      </div>
+      <div class="loop">
+        <span class="mono k" style="margin-top:56px">Apply &amp; join</span>
+        <div class="row">
+          <button class="btn sig" data-open="register" data-type="MSME">Register as an MSME</button>
+          <button class="btn" data-open="register" data-type="Vendor">Apply as a Vendor</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ CAMPUS ============ -->
+<div class="view" data-view="campus">
+  <div class="page-head">
+    <div class="wrap">
+      <a class="back mono" href="#/services">‹ Services</a>
+      <h1 class="display" style="font-size:clamp(3.2rem,11vw,8.5rem)">Digital<br><span class="hl">Campus</span></h1>
+      <p class="lede" style="margin-top:30px">Training that leads to careers inside the Ruptvate ecosystem.</p>
+    </div>
+  </div>
+  <section style="border-bottom:0">
+    <div class="narrow">
+      <p class="mono" style="margin-bottom:30px">Training → Verified work → Rank → Careers</p>
+      <div class="row">
+        <button class="btn sig" data-open="consulting">Ask about training</button>
+        <a class="btn" href="#/services">All services</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ APPLY ============ -->
+<div class="view" data-view="apply">
+  <div class="page-head">
+    <div class="wrap">
+      <a class="back mono" href="#/">‹ Back</a>
+      <h1 class="display" style="font-size:clamp(3.2rem,11vw,8.5rem)">Apply as a<br><span class="hl">Commander</span></h1>
+      <p class="lede" style="margin-top:30px">Only 30 Commander spots available. Once submitted, your unique Commander referral link is generated.</p>
+    </div>
+  </div>
+
+  <div class="apply-grid">
+    <div class="wrap">
+      <form class="form f" id="applyForm" novalidate>
+        <div class="two">
+          <div><label class="mono" for="a_name">Full name</label><input id="a_name" name="fullName" autocomplete="name" required></div>
+          <div><label class="mono" for="a_email">Email</label><input id="a_email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="two">
+          <div><label class="mono" for="a_tg">Telegram handle</label><input id="a_tg" name="telegram" placeholder="@handle" required></div>
+          <div><label class="mono" for="a_x">X handle</label><input id="a_x" name="x" placeholder="@handle" required></div>
+        </div>
+        <div><label class="mono" for="a_li">LinkedIn link <span class="opt">Optional</span></label><input id="a_li" name="linkedin" type="url" placeholder="https://"></div>
+        <div class="two">
+          <div><label class="mono" for="a_country">Country</label><input id="a_country" name="country" autocomplete="country-name" required></div>
+          <div><label class="mono" for="a_state">State</label><input id="a_state" name="state" required></div>
+        </div>
+        <div><label class="mono" for="a_city">City</label><input id="a_city" name="city" required></div>
+        <div class="two">
+          <div>
+            <label class="mono" for="a_edu">Educational level</label>
+            <select id="a_edu" name="education" required>
+              <option value="">Select one</option><option>Student</option><option>Secondary school</option><option>OND / Diploma</option><option>HND</option><option>Bachelor's degree</option><option>Postgraduate diploma</option><option>Master's degree</option><option>Doctorate</option><option>Professional certification</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="mono" for="a_exp">Experience level</label>
+            <select id="a_exp" name="experience" required>
+              <option value="">Select one</option><option>No experience yet</option><option>Under 1 year</option><option>1 to 3 years</option><option>3 to 5 years</option><option>5 to 10 years</option><option>10+ years</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="mono" for="a_why">Why Commander</label><textarea id="a_why" name="why" required></textarea></div>
+        <div><label class="mono" for="a_cv">Upload CV <span class="opt">PDF or Word</span></label><input id="a_cv" name="cv" type="file" accept=".pdf,.doc,.docx" required></div>
+        <div class="err" id="applyErr" role="alert"></div>
+        <button class="btn sig" type="submit" id="applyBtn">Lock In 1 of 30 Commander Spots</button>
+        <p class="note">We only collect what this form asks for. See the <button type="button" class="link" data-open="privacy" style="text-decoration:underline">Privacy Policy</button>.</p>
+      </form>
+
+      <div class="done" id="applyDone">
+        <span class="mono k">Application received</span>
+        <h2 class="display">You are in,<br><span id="doneName" class="hl">Commander</span>.</h2>
+        <p style="margin-top:22px">Your unique Commander referral link is ready. It unlocks 30 referrals.</p>
+        <div class="reflink">
+          <input id="refLink" readonly aria-label="Your referral link">
+          <button type="button" id="copyBtn">Copy link</button>
+        </div>
+        <div class="pts">
+          <span class="big-n">0</span>
+          <p class="mono">Your points</p>
+          <p class="note" style="margin-top:8px">5 points for every Scouter you register. Locked for now.</p>
+        </div>
+        <button class="btn" disabled>Claim opens later</button>
+        <p class="note" style="margin:30px 0 16px">Follow Ruptvate on X and LinkedIn to stay updated.</p>
+        <div class="row">
+          <a class="btn" href="https://x.com/ruptvate" target="_blank" rel="noopener">Follow on X</a>
+          <a class="btn" href="https://www.linkedin.com/company/ruptvate" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        </div>
+        <p style="margin-top:34px"><a class="mono" href="#/">Back to home</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="display mega">RUPT<i>V</i>ATE</div>
+    <p class="mono tagline">…from existence to dominance</p>
+    <div class="socials mono">
+      <a href="https://x.com/ruptvate" target="_blank" rel="noopener">X</a>
+      <a href="https://t.me/ruptvate" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://www.linkedin.com/company/ruptvate" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://instagram.com/ruptvate" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="fine mono">
+      <span>© 2026 Ruptvate. All rights reserved.</span>
+      <button data-open="contact">Contact us</button>
+      <button data-open="terms">Terms of Service</button>
+      <button data-open="privacy">Privacy Policy</button>
+    </div>
+    <span class="soon mono">AI Support Agent · Coming soon</span>
+  </div>
+</footer>
+
+<!-- ============ DIALOGS ============ -->
+<dialog id="dlg-contact"><div class="dlg">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Contact us</h3>
+  <p class="lede">Questions, support, partnerships and investor enquiries.</p>
+  <form class="form f" data-form="contact" novalidate>
+    <div class="two">
+      <div><label class="mono">Your name</label><input name="name" required></div>
+      <div><label class="mono">Your email</label><input name="email" type="email" required></div>
+    </div>
+    <div><label class="mono">Enquiry type</label>
+      <select name="type"><option>General inquiry</option><option>Support</option><option>Partnership</option><option>Investor enquiry</option></select></div>
+    <div><label class="mono">Your message</label><textarea name="message" required></textarea></div>
+    <div class="err" role="alert"></div>
+    <button class="btn sig" type="submit">Send message</button>
+  </form>
+  <div class="ok"><h3 class="display">Thank you.</h3><p>We will reply to you by email.</p></div>
+</div></dialog>
+
+<dialog id="dlg-whitelist"><div class="dlg">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Apply for the whitelist</h3>
+  <p class="lede">Enter your wallet address to be considered for the Early Supporters Badge whitelist.</p>
+  <form class="form f" data-form="whitelist" novalidate>
+    <div><label class="mono">Wallet address</label><input name="wallet" required autocomplete="off" spellcheck="false"></div>
+    <div><label class="mono">Email</label><input name="email" type="email" required></div>
+    <p class="note">Never share your seed phrase or private key. We only need your public wallet address.</p>
+    <div class="err" role="alert"></div>
+    <button class="btn sig" type="submit">Apply for whitelist</button>
+  </form>
+  <div class="ok"><h3 class="display">Application received.</h3><p>We will email you if you are whitelisted.</p></div>
+</div></dialog>
+
+<dialog id="dlg-consulting"><div class="dlg">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Consulting</h3>
+  <p class="lede">Tell us what you need help with and we will reply by email.</p>
+  <form class="form f" data-form="consulting" novalidate>
+    <div class="two">
+      <div><label class="mono">Your name</label><input name="name" required></div>
+      <div><label class="mono">Your email</label><input name="email" type="email" required></div>
+    </div>
+    <div><label class="mono">Organisation</label><input name="organisation"></div>
+    <div><label class="mono">What do you need help with</label>
+      <select name="need"><option>Consulting and Advisory Services</option><option>Process Optimization</option><option>Emerging Technology Training</option><option>Workforce Development</option><option>Technological and Digital Transformation</option></select></div>
+    <div><label class="mono">Your message</label><textarea name="message" required></textarea></div>
+    <div class="err" role="alert"></div>
+    <button class="btn sig" type="submit">Send request</button>
+  </form>
+  <div class="ok"><h3 class="display">Thank you.</h3><p>We will reply to you by email.</p></div>
+</div></dialog>
+
+<dialog id="dlg-register"><div class="dlg">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display" id="regTitle">Register</h3>
+  <p class="lede">Tell us who you are and we will be in touch by email.</p>
+  <form class="form f" data-form="register" novalidate>
+    <input type="hidden" name="type" id="regType" value="MSME">
+    <div class="two">
+      <div><label class="mono">Your name</label><input name="name" required></div>
+      <div><label class="mono">Your email</label><input name="email" type="email" required></div>
+    </div>
+    <div><label class="mono">Organisation</label><input name="organisation" required></div>
+    <div><label class="mono">Tell us about it</label><textarea name="message"></textarea></div>
+    <div class="err" role="alert"></div>
+    <button class="btn sig" type="submit">Submit</button>
+  </form>
+  <div class="ok"><h3 class="display">Thank you.</h3><p>We will reply to you by email.</p></div>
+</div></dialog>
+
+<dialog id="dlg-terms"><div class="dlg legal">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Terms of Service</h3>
+  <ul>
+    <li>The details you give must be accurate.</li>
+    <li>Points, ranks and rewards depend on verified task submissions and can change as the programme grows.</li>
+    <li>Ruptvate NFT badges are membership badges. They are not investments and no profit is promised.</li>
+    <li>We can remove anyone who submits false or copied data.</li>
+    <li>Ruptvate decides who is activated as a Commander.</li>
+    <li>Questions: <a href="mailto:support@ruptvate.com">support@ruptvate.com</a></li>
+  </ul>
+</div></dialog>
+
+<dialog id="dlg-privacy"><div class="dlg legal">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Privacy Policy</h3>
+  <ul>
+    <li>We collect what the forms ask for: name, email, wallet address for the whitelist, Telegram, X and LinkedIn details, education and experience, your reason for applying, and your CV.</li>
+    <li>We use it to review applications, run the programme and contact you.</li>
+    <li>If you become a Commander, your X handle and picture show on your referral page. We do not publish your CV.</li>
+    <li>To ask for your data to be deleted, email <a href="mailto:support@ruptvate.com">support@ruptvate.com</a>.</li>
+  </ul>
+</div></dialog>
+
+<script>
+/* ---------- CONFIG ----------
+   Point each key at your existing endpoint (same ones the current site posts to).
+   While a value is empty the form runs in DEMO mode: it validates and shows the
+   success state but sends nothing. */
+const ENDPOINTS = { commander:"", whitelist:"", contact:"", consulting:"", register:"" };
+
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+
+/* ---------- slots ---------- */
+$('#slots').innerHTML = Array.from({length:30},(_,i)=>`<li>${String(i+1).padStart(2,'0')}</li>`).join('');
+
+/* ---------- role state ---------- */
+let role = 'commander';
+function setRole(r, name){
+  role = r;
+  $$('[data-role]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.role===r)));
+  $$('.panel').forEach(p=>p.classList.toggle('on', p.dataset.panel===r));
+  const cta = $('#heroCta');
+  if(r==='scouter'){ cta.textContent='Become a Scouter'; cta.setAttribute('href','#roles'); }
+  else { cta.textContent='Become a Commander'; cta.setAttribute('href','#/apply'); }
+  const inv = $('#invite');
+  if(name){ $('#inviteName').textContent = name; inv.classList.add('show'); } else { inv.classList.remove('show'); }
+}
+$$('[data-role]').forEach(b=>b.addEventListener('click',()=>setRole(b.dataset.role)));
+$('#heroCta').addEventListener('click',e=>{
+  if(role==='scouter'){ e.preventDefault(); $('#roles').scrollIntoView({behavior:'smooth'}); }
+});
+
+/* ---------- router ---------- */
+const views = { '/':'home', '/services':'services', '/services/campus':'campus', '/apply':'apply' };
+function route(){
+  let path = location.hash.replace(/^#/,'') || '/';
+  if(path==='') path='/';
+  let ref = new URLSearchParams(location.search).get('ref');
+  let m = path.match(/^\/join\/([\w-]+)/);
+  if(m){ ref = m[1]; path = '/'; }
+  if(!(path in views)){
+    /* in-page anchors like #roles keep the home view */
+    if(document.getElementById(path.replace('/','')) ){ path='/'; } else path='/';
+  }
+  const name = views[path];
+  $$('.view').forEach(v=>v.classList.toggle('on', v.dataset.view===name));
+  $$('[data-nav]').forEach(a=>a.toggleAttribute('aria-current', a.dataset.nav===path) ) ;
+  $$('[data-nav]').forEach(a=>{ if(a.dataset.nav===path) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  if(name==='home'){
+    if(ref){ setRole('scouter', ref.replace(/[-_]/g,' ')); } else if(role==='scouter' && !$('#invite').classList.contains('show')){ /* keep */ }
+  }
+  $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false');
+  if(!['roles','ranks','how','badge'].includes(location.hash.replace('#',''))) window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+/* anchor links that are not routes */
+document.addEventListener('click',e=>{
+  const a = e.target.closest('a[href^="#"]');
+  if(!a) return;
+  const h = a.getAttribute('href');
+  if(h==='#roles'||h==='#ranks'||h==='#how'||h==='#badge'){
+    e.preventDefault();
+    if(!$('[data-view="home"]').classList.contains('on')){ location.hash='#/'; setTimeout(()=>document.getElementById(h.slice(1))?.scrollIntoView({behavior:'smooth'}),30); }
+    else document.getElementById(h.slice(1))?.scrollIntoView({behavior:'smooth'});
+  }
+});
+
+/* ---------- menu ---------- */
+$('#menuBtn').addEventListener('click',()=>{
+  const o = $('#nav').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', String(o));
+});
+
+/* ---------- dialogs ---------- */
+function openDlg(id,type){
+  $$('dialog[open]').forEach(d=>d.close());
+  const d = $('#dlg-'+id); if(!d) return;
+  if(id==='register'){ $('#regType').value=type||'MSME'; $('#regTitle').textContent = type==='Vendor' ? 'Apply as a Vendor' : 'Register as an MSME'; }
+  const f = $('form',d), ok = $('.ok',d);
+  if(f){ f.hidden=false; f.reset(); $('.err',f).textContent=''; if(id==='register') $('#regType').value=type||'MSME'; }
+  if(ok) ok.classList.remove('show');
+  d.showModal();
+}
+document.addEventListener('click',e=>{
+  const o = e.target.closest('[data-open]');
+  if(o){ e.preventDefault(); openDlg(o.dataset.open, o.dataset.type); return; }
+  if(e.target.closest('[data-close]')){ e.target.closest('dialog').close(); return; }
+  if(e.target.tagName==='DIALOG') e.target.close();
+});
+
+/* ---------- forms ---------- */
+async function send(key, fd){
+  const url = ENDPOINTS[key];
+  if(!url){ await new Promise(r=>setTimeout(r,500)); return {demo:true}; }
+  const res = await fetch(url,{method:'POST',body:fd});
+  if(!res.ok) throw new Error('Request failed ('+res.status+')');
+  try{ return await res.json(); }catch{ return {}; }
+}
+function check(form){
+  for(const el of $$('[required]',form)){
+    if(!el.value || (el.type==='file' && !el.files.length)){ el.focus(); return 'Please complete every required field.'; }
+    if(el.type==='email' && !/^\S+@\S+\.\S+$/.test(el.value)){ el.focus(); return 'Enter a valid email address.'; }
+  }
+  return '';
+}
+$$('form[data-form]').forEach(form=>{
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const err = $('.err',form), btn = $('button[type=submit]',form);
+    const msg = check(form); if(msg){ err.textContent=msg; return; }
+    err.textContent=''; btn.disabled=true;
+    try{
+      await send(form.dataset.form, new FormData(form));
+      form.hidden = true; $('.ok',form.closest('dialog')).classList.add('show');
+    }catch(x){ err.textContent = x.message || 'Something went wrong. Try again.'; }
+    btn.disabled=false;
+  });
+});
+
+/* ---------- commander application ---------- */
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24) || 'commander';
+$('#applyForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f = e.target, err = $('#applyErr'), btn = $('#applyBtn');
+  const msg = check(f); if(msg){ err.textContent=msg; return; }
+  err.textContent=''; btn.disabled=true; btn.textContent='Locking in…';
+  try{
+    const fd = new FormData(f);
+    const out = await send('commander', fd);
+    const name = fd.get('fullName').toString().trim();
+    const link = out.referralLink || (location.origin + location.pathname + '#/join/' + slug(name) + '-' + Math.random().toString(36).slice(2,6));
+    $('#doneName').textContent = name.split(' ')[0];
+    $('#refLink').value = link;
+    f.hidden = true; $('#applyDone').classList.add('show'); window.scrollTo(0,0);
+  }catch(x){ err.textContent = x.message || 'Something went wrong. Try again.'; }
+  btn.disabled=false; btn.textContent='Lock In 1 of 30 Commander Spots';
+});
+$('#copyBtn').addEventListener('click',async()=>{
+  const i = $('#refLink');
+  try{ await navigator.clipboard.writeText(i.value); }catch{ i.select(); document.execCommand('copy'); }
+  $('#copyBtn').textContent='Copied'; setTimeout(()=>$('#copyBtn').textContent='Copy link',1600);
+});
+
+route();
+</script>
+</body>
+</html>
