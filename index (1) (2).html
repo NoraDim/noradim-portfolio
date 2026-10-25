@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ruptvate</title>
+<meta name="description" content="Ruptvate brings builders, data teams and communities into one network where completed tasks count and rank is earned.">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8; --surface:#FFFFFF; --ink:#111110; --muted:#5E5E58; --line:#E3E3DD; --line2:#D0D0C8;
+  --accent:#1F3DFF; --accent-d:#1730CC; --accent-soft:#EEF0FF; --err:#C2271B;
+  --r:12px; --r-lg:18px; --nav-h:72px;
+  --font:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --gutter:clamp(20px,5vw,40px);
+  /* spacing scale (8pt) */
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:64px; --s7:96px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 16px)}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;text-align:center;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1080px,100% - 2*var(--gutter));margin-inline:auto}
+.narrow{width:min(620px,100% - 2*var(--gutter));margin-inline:auto}
+.mid{width:min(860px,100% - 2*var(--gutter));margin-inline:auto}
+
+/* type: every title stays on ONE line */
+h1,h2,h3{font-weight:600;letter-spacing:-.03em;line-height:1.1}
+.title{white-space:nowrap;font-size:clamp(1.2rem,calc((100vw - 40px)/13.5),3rem)}
+.title.hero-t{font-size:clamp(1.2rem,calc((100vw - 40px)/13),4.25rem)}
+h2{font-size:clamp(1.35rem,3vw,1.75rem)}
+h3{font-size:1.15rem;letter-spacing:-.015em;line-height:1.3}
+.lede{color:var(--muted);font-size:clamp(1.02rem,1.7vw,1.15rem);max-width:48ch;margin-inline:auto}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:.84rem;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:6px 14px;border-radius:99px}
+.pill.plain{color:var(--ink);background:var(--surface);border:1px solid var(--line2)}
+.pill.plain::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.acc{color:var(--accent)}
+
+/* ===== navbar (single bar) ===== */
+header.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:var(--nav-h);gap:var(--s2)}
+.brand{justify-self:start;display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.2rem;letter-spacing:-.03em;text-decoration:none;min-height:44px}
+.brand i{width:14px;height:14px;background:var(--accent);border-radius:4px;display:block}
+nav.links{display:flex;align-items:center;gap:4px}
+nav.links a.nl{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;text-decoration:none;font-size:.95rem;font-weight:500;color:var(--muted);transition:color .15s}
+nav.links a.nl:hover{color:var(--ink)}
+nav.links a.nl[aria-current="page"]{color:var(--ink)}
+nav.links a.nl[aria-current="page"]::after{content:"";position:absolute;left:16px;right:16px;bottom:-14px;height:2px;background:var(--accent);border-radius:2px}
+.nav-right{justify-self:end;display:flex;align-items:center;gap:8px}
+.menu-btn{display:none;width:44px;height:44px;border:1px solid var(--line2);border-radius:10px;background:var(--surface);place-items:center}
+.menu-btn svg{width:20px;height:20px}
+.menu-btn .i-x{display:none}
+.menu-btn[aria-expanded="true"] .i-x{display:block}
+.menu-btn[aria-expanded="true"] .i-menu{display:none}
+.drawer{display:none}
+@media (max-width:880px){
+  .nav-in{grid-template-columns:1fr auto}
+  nav.links{display:none}
+  .nav-right .btn{display:none}
+  .menu-btn{display:grid}
+  .drawer{position:absolute;left:0;right:0;top:100%;background:var(--surface);border-bottom:1px solid var(--line);padding:var(--s1) var(--gutter) var(--s3)}
+  .drawer.open{display:block}
+  .drawer a.dl{display:flex;align-items:center;justify-content:center;min-height:56px;text-decoration:none;font-size:1.05rem;font-weight:500;border-bottom:1px solid var(--line)}
+  .drawer a.dl[aria-current="page"]{color:var(--accent)}
+  .drawer .btn{width:100%;margin-top:var(--s3)}
+}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:var(--r);font-weight:600;font-size:.98rem;text-decoration:none;border:1px solid var(--line2);background:var(--surface);color:var(--ink);transition:background .15s,border-color .15s,transform .1s;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn:active{transform:scale(.985)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-d);border-color:var(--accent-d)}
+.btn.sm{min-height:44px;padding:0 18px;font-size:.92rem}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+#submitBtn{white-space:normal;line-height:1.3;padding:12px 20px;text-align:center}
+@media (max-width:600px){.actions .btn{width:100%}}
+/* views + page template */
+.view{display:none}
+.view.on{display:block;animation:in .22s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.view.on{animation:none}*{transition:none!important}}
+.page{padding:var(--s6) 0 var(--s7)}
+.pagehead{margin-bottom:var(--s5)}
+.pagehead .pill{margin-bottom:var(--s3)}
+.pagehead .title{margin-bottom:var(--s2)}
+.pagehead .row{margin-top:var(--s4)}
+.crumb{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);text-decoration:none;font-size:.92rem;margin-bottom:var(--s1)}
+.crumb:hover{color:var(--ink)}
+.section{margin-top:var(--s6)}
+.section>h2{margin-bottom:var(--s4)}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s4)}
+.card h3{margin-bottom:var(--s2)}
+.ico{width:48px;height:48px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin:0 auto var(--s2)}
+.ico svg{width:24px;height:24px;stroke-width:1.75}
+.ico.big{width:72px;height:72px;border-radius:50%}
+.ico.big svg{width:34px;height:34px}
+h3 .h-ico{display:inline-block;vertical-align:-4px;width:20px;height:20px;margin-right:8px;color:var(--accent);stroke-width:1.9}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2)}
+@media (max-width:860px){.grid3{grid-template-columns:1fr}}
+@media (max-width:680px){.grid2.stack{grid-template-columns:1fr}}
+.card p,.card li{color:var(--muted)}
+.plain{list-style:none}
+.plain li{padding:14px 0;border-top:1px solid var(--line);color:#33332F}
+.plain li:first-child{border-top:0;padding-top:0}
+.plain li:last-child{padding-bottom:0}
+a.card{text-decoration:none;display:flex;flex-direction:column;align-items:center;transition:border-color .15s,transform .15s}
+a.card:hover{border-color:var(--ink);transform:translateY(-2px)}
+a.card .go{margin-top:var(--s2);font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:4px}
+a.card .go svg{width:16px;height:16px}
+.step-n{font-size:.8rem;font-weight:600;color:var(--accent);margin-bottom:6px;letter-spacing:.02em}
+
+/* home */
+.hero{padding:var(--s7) 0 var(--s6)}
+.hero .pill{margin-bottom:var(--s3)}
+.hero .title{margin-bottom:var(--s3)}
+.hero .lede{margin-bottom:var(--s4)}
+
+/* ladder */
+ol.ladder{list-style:none;display:grid;grid-template-columns:repeat(5,1fr)}
+.ladder li{position:relative;padding:0 6px}
+.ladder li::before{content:"";display:block;width:14px;height:14px;border-radius:50%;background:var(--surface);border:2px solid var(--line2);margin:0 auto 14px;position:relative;z-index:1}
+.ladder li::after{content:"";position:absolute;top:6px;right:50%;width:100%;height:2px;background:var(--line2)}
+.ladder li:first-child::after{display:none}
+.ladder li.key::before{background:var(--accent);border-color:var(--accent)}
+.ladder strong{display:block;font-size:.95rem;font-weight:600}
+.ladder small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
+@media (max-width:700px){
+  ol.ladder{grid-template-columns:1fr}
+  .ladder li{padding:0 0 22px}
+  .ladder li:last-child{padding-bottom:0}
+  .ladder li::after{top:14px;right:auto;left:calc(50% - 1px);width:2px;height:calc(100% - 6px)}
+  .ladder li:last-child::after{display:none}
+}
+.invite{display:none;margin:0 auto var(--s3);background:var(--accent-soft);color:var(--accent-d);font-weight:600;padding:12px 18px;border-radius:var(--r);max-width:max-content}
+.invite.show{display:block}
+
+/* services */
+.svc{align-items:center;text-align:center;display:flex;flex-direction:column}
+.svc ul{list-style:none;display:grid;gap:4px;font-size:.95rem}
+.svc .grow{flex:1}
+.svc .btn{margin-top:var(--s3)}
+
+/* forms */
+.formcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s4)}
+@media (min-width:600px){.formcard{padding:var(--s5)}}
+.form{display:grid;gap:20px;text-align:left}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:600px){.fgrid{grid-template-columns:1fr}}
+.field label{display:block;font-weight:500;font-size:.9rem;margin-bottom:7px}
+.opt{color:var(--muted);font-weight:400}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:1rem;min-height:48px;padding:12px 14px;background:var(--surface);color:var(--ink);border:1px solid var(--line2);border-radius:var(--r);appearance:none;transition:border-color .15s,box-shadow .15s}
+.field textarea{min-height:128px;resize:vertical;line-height:1.5}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23111110' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px}
+.field input[type=file]{padding:10px 12px}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.field [aria-invalid="true"]{border-color:var(--err)}
+.hint{color:var(--muted);font-size:.84rem;margin-top:6px}
+.msg{color:var(--err);font-size:.84rem;margin-top:6px}
+.msg:empty{display:none}
+.formerr{color:var(--err);font-size:.9rem;text-align:center}
+.formerr:empty{display:none}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.note{color:var(--muted);font-size:.86rem;text-align:center}
+.note a{color:var(--ink)}
+.formhead{margin-bottom:var(--s3)}
+.formhead p{color:var(--muted);font-size:.92rem;margin-top:4px}
+
+/* stepper */
+.progress{margin-bottom:var(--s4)}
+.progress ol{list-style:none;display:flex;justify-content:center;gap:8px;font-size:.84rem;color:var(--muted);font-weight:500;flex-wrap:wrap}
+.progress li{display:flex;align-items:center;gap:8px}
+.progress li b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid var(--line2);font-size:.75rem;font-weight:600}
+.progress li.on{color:var(--ink)}
+.progress li.on b,.progress li.done b{background:var(--accent);border-color:var(--accent);color:#fff}
+.progress li+li::before{content:"";width:22px;height:1px;background:var(--line2)}
+.bar{height:4px;background:var(--line);border-radius:4px;margin-top:16px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:33.3%;transition:width .25s}
+.step{display:none;gap:20px}
+.step.on{display:grid}
+
+/* success */
+.done{display:none}
+.done.show{display:block}
+.ok-mark{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin:0 auto var(--s3)}
+.reflink{display:flex;border:1px solid var(--line2);border-radius:var(--r);overflow:hidden;margin:var(--s3) 0;background:var(--surface)}
+.reflink input{flex:1;min-width:0;border:0;padding:0 14px;min-height:48px;font:inherit;font-size:.9rem;text-align:center;background:transparent;color:var(--ink)}
+.reflink button{padding:0 20px;font-weight:600;background:var(--ink);color:#fff;min-height:48px}
+.reflink button:hover{background:#2b2b28}
+.points{border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:var(--s3);background:var(--bg)}
+.points b{display:block;font-size:2.6rem;font-weight:600;letter-spacing:-.04em;line-height:1}
+.points span{display:block;color:var(--muted);font-size:.9rem;margin-top:8px}
+.follow{margin-top:var(--s3)}
+.follow p{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+
+/* badge */
+.price{font-size:clamp(3rem,9vw,4.5rem);font-weight:600;letter-spacing:-.05em;line-height:1;margin:var(--s2) 0 4px}
+
+/* legal */
+.legal ul{list-style:none;text-align:left}
+.legal li{padding:18px 0;border-top:1px solid var(--line);color:#33332F}
+.legal li:first-child{border-top:0;padding-top:0}
+.legal li:last-child{padding-bottom:0}
+
+/* footer */
+footer{border-top:1px solid var(--line);background:var(--surface);padding:var(--s5) 0 var(--s3)}
+.f-brand{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem;letter-spacing:-.03em;margin-bottom:6px}
+.f-brand i{width:12px;height:12px;background:var(--accent);border-radius:3px}
+.tagline{color:var(--muted);font-size:.95rem;margin-bottom:var(--s3)}
+.f-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:0 8px;margin-bottom:var(--s2)}
+.f-nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;text-decoration:none;font-size:.92rem;font-weight:500}
+.f-nav a:hover{color:var(--accent)}
+.socials{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:var(--s4)}
+.socials a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:99px;text-decoration:none;font-size:.9rem;font-weight:500}
+.socials a:hover{border-color:var(--ink)}
+.socials svg{width:16px;height:16px;margin-right:8px;stroke-width:1.9}
+.fine{display:flex;flex-wrap:wrap;justify-content:center;gap:0 24px;color:var(--muted);font-size:.86rem;padding-top:var(--s2);border-top:1px solid var(--line)}
+.fine a,.fine span{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+.fine a:hover{color:var(--ink);text-decoration:underline}
+.ai{margin-top:4px;font-size:.8rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap nav-in">
+    <a class="brand" href="#/" aria-label="Ruptvate home"><i></i>Ruptvate</a>
+    <nav class="links" aria-label="Main">
+      <a class="nl" href="#/commander" data-nav="commander">Commander</a>
+      <a class="nl" href="#/scouter" data-nav="scouter">Scouter</a>
+      <a class="nl" href="#/services" data-nav="services">Services</a>
+      <a class="nl" href="#/badge" data-nav="badge">Badge</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn primary sm" href="#/apply">Apply as Commander</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="drawer" aria-label="Open menu">
+        <svg class="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="drawer" id="drawer">
+    <a class="dl" href="#/commander" data-nav="commander">Commander</a>
+    <a class="dl" href="#/scouter" data-nav="scouter">Scouter</a>
+    <a class="dl" href="#/services" data-nav="services">Services</a>
+    <a class="dl" href="#/badge" data-nav="badge">Badge</a>
+    <a class="btn primary" href="#/apply">Apply as Commander</a>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- HOME -->
+<section class="view" data-view="home" data-title="Ruptvate">
+  <div class="hero">
+    <div class="wrap">
+      <span class="pill">Join early. Lead a squad.</span>
+      <h1 class="title hero-t">Earn from verified work.</h1>
+      <p class="lede">Ruptvate brings builders, data teams and communities into one network where completed tasks count and rank is earned.</p>
+      <div class="row">
+        <a class="btn primary" href="#/apply">Become a Commander</a>
+        <a class="btn" href="#/services">Explore Services</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="grid3">
+      <div class="card">
+        <span class="ico"><i data-lucide="user-plus"></i></span>
+        <p class="step-n">STEP 1</p>
+        <h3>Join early</h3>
+        <p>Apply early to lock in your link.</p>
+      </div>
+      <div class="card">
+        <span class="ico"><i data-lucide="users"></i></span>
+        <p class="step-n">STEP 2</p>
+        <h3>Lead a squad</h3>
+        <p>Coordinate real business data tasks.</p>
+      </div>
+      <div class="card">
+        <span class="ico"><i data-lucide="badge-check"></i></span>
+        <p class="step-n">STEP 3</p>
+        <h3>Earn from verified work</h3>
+        <p>Completed tasks count and rank is earned.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section" style="padding-bottom:var(--s7)">
+    <h2>Choose your role</h2>
+    <div class="grid2 stack">
+      <a class="card" href="#/commander">
+        <span class="ico"><i data-lucide="crown"></i></span>
+        <h3>Commander</h3>
+        <p>Lead a squad, coordinate data tasks, and earn high-tier rewards.</p>
+        <span class="go">Learn more<i data-lucide="arrow-right"></i></span>
+      </a>
+      <a class="card" href="#/scouter">
+        <span class="ico"><i data-lucide="scan-search"></i></span>
+        <h3>Scouter</h3>
+        <p>Collect verified data, climb the ranks, and earn rewards.</p>
+        <span class="go">Learn more<i data-lucide="arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- COMMANDER -->
+<section class="view" data-view="commander" data-title="Become a Commander · Ruptvate">
+  <div class="page">
+    <div class="mid">
+      <header class="pagehead">
+        <span class="pill plain">Only 30 spots</span>
+        <h1 class="title">Become a Commander</h1>
+        <p class="lede">Lead a squad, coordinate data tasks, and earn high-tier rewards. Apply early to lock in your link.</p>
+        <div class="row"><a class="btn primary" href="#/apply">Apply now</a></div>
+      </header>
+      <div class="grid2 stack">
+        <div class="card">
+          <h3><i data-lucide="clipboard-check" class="h-ico"></i>What you do</h3>
+          <ul class="plain">
+            <li>Claim 1 of the exclusive Commander referral links.</li>
+            <li>Invite Scouters using your referral link to build and lead your prospective squad.</li>
+            <li>Oversee task submission quality and keep your squad active.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><i data-lucide="trophy" class="h-ico"></i>Rewards</h3>
+          <ul class="plain">
+            <li>Earn point overrides from all verified work completed by your squad.</li>
+            <li>Hit 25 verified squad tasks to mint your Commander NFT Badge.</li>
+            <li>Level up to Veteran, Master, and Super Commander (100 tasks) to unlock core employment opportunities.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Your path</h2>
+        <ol class="ladder">
+          <li><strong>Commander</strong><small>Point overrides</small></li>
+          <li class="key"><strong>25 tasks</strong><small>Commander NFT Badge</small></li>
+          <li><strong>Veteran</strong></li>
+          <li><strong>Master</strong></li>
+          <li class="key"><strong>Super Commander</strong><small>100 tasks · core employment</small></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCOUTER -->
+<section class="view" data-view="scouter" data-title="Become a Scouter · Ruptvate">
+  <div class="page">
+    <div class="mid">
+      <header class="pagehead">
+        <div class="invite" id="invite">You’ve been invited to join <span id="inviteName">a Commander</span>’s Squad.</div>
+        <h1 class="title">Become a Scouter</h1>
+        <p class="lede">Collect verified data, climb the ranks, and earn rewards.</p>
+        <div class="row"><a class="btn primary" href="#/services">Explore Services</a></div>
+      </header>
+      <div class="grid2 stack">
+        <div class="card">
+          <h3><i data-lucide="clipboard-check" class="h-ico"></i>What you do</h3>
+          <ul class="plain">
+            <li>Complete assigned data-collection tasks accurately.</li>
+            <li>Submit clean entries and hit batch deadlines.</li>
+            <li>Work with your Commander to boost your squad’s verified completions.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><i data-lucide="trophy" class="h-ico"></i>Rewards</h3>
+          <ul class="plain">
+            <li>Earn points for every single verified task submission.</li>
+            <li>Hit 25 verified tasks to mint your official Scouter NFT Badge.</li>
+            <li>Level up to Veteran, Master, and Super Scouter (100 tasks) to unlock the Commander Role.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Your path</h2>
+        <ol class="ladder">
+          <li><strong>Scouter</strong><small>Points per verified task</small></li>
+          <li class="key"><strong>25 tasks</strong><small>Scouter NFT Badge</small></li>
+          <li><strong>Veteran</strong></li>
+          <li><strong>Master</strong></li>
+          <li class="key"><strong>Super Scouter</strong><small>100 tasks · Commander role</small></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="view" data-view="services" data-title="Services · Ruptvate">
+  <div class="page">
+    <div class="wrap">
+      <header class="pagehead">
+        <h1 class="title">Services</h1>
+        <p class="lede">Consulting, Digital Campus and Marketplace feed each other.</p>
+      </header>
+      <div class="grid3">
+        <div class="card svc">
+          <span class="ico"><i data-lucide="briefcase-business"></i></span>
+          <h3>Consulting</h3>
+          <ul>
+            <li>Consulting and Advisory Services</li>
+            <li>Process Optimization</li>
+            <li>Emerging Technology Training</li>
+            <li>Workforce Development</li>
+            <li>Technological and Digital Transformation</li>
+          </ul>
+          <span class="grow"></span>
+          <a class="btn sm" href="#/services/consulting">Request consulting</a>
+        </div>
+        <div class="card svc">
+          <span class="ico"><i data-lucide="graduation-cap"></i></span>
+          <h3>Digital Campus</h3>
+          <p>Training that leads to careers inside the Ruptvate ecosystem.</p>
+          <span class="grow"></span>
+          <a class="btn sm" href="#/services/campus">Open Digital Campus</a>
+        </div>
+        <div class="card svc">
+          <span class="ico"><i data-lucide="store"></i></span>
+          <h3>Marketplace</h3>
+          <p>Register as an MSME or apply as a Vendor.</p>
+          <span class="grow"></span>
+          <a class="btn sm" href="#/services/register">Apply &amp; Join</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPUS -->
+<section class="view" data-view="campus" data-title="Digital Campus · Ruptvate">
+  <div class="page">
+    <div class="narrow">
+      <a class="crumb" href="#/services">‹ Services</a>
+      <header class="pagehead">
+        <span class="ico big"><i data-lucide="graduation-cap"></i></span>
+        <h1 class="title">Digital Campus</h1>
+        <p class="lede">Training that leads to careers inside the Ruptvate ecosystem.</p>
+        <div class="row">
+          <a class="btn primary" href="#/services/consulting">Ask about training</a>
+          <a class="btn" href="#/services">All services</a>
+        </div>
+      </header>
+    </div>
+  </div>
+</section>
+
+<!-- CONSULTING -->
+<section class="view" data-view="consulting" data-title="Consulting · Ruptvate">
+  <div class="page">
+    <div class="narrow">
+      <a class="crumb" href="#/services">‹ Services</a>
+      <header class="pagehead">
+        <h1 class="title">Consulting</h1>
+        <p class="lede">Tell us what you need help with and we will reply by email.</p>
+      </header>
+      <div class="formcard">
+        <form class="form" data-form="consulting" novalidate></form>
+        <div class="done"><h2>Thank you.</h2><p class="lede" style="margin-top:12px">We will reply to you by email.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section class="view" data-view="register" data-title="Apply & Join · Ruptvate">
+  <div class="page">
+    <div class="narrow">
+      <a class="crumb" href="#/services">‹ Services</a>
+      <header class="pagehead">
+        <h1 class="title">Apply &amp; Join</h1>
+        <p class="lede">Register as an MSME or apply as a Vendor.</p>
+      </header>
+      <div class="formcard">
+        <form class="form" data-form="register" novalidate></form>
+        <div class="done"><h2>Thank you.</h2><p class="lede" style="margin-top:12px">We will reply to you by email.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="view" data-view="apply" data-title="Apply as Commander · Ruptvate">
+  <div class="page">
+    <div class="narrow">
+      <div id="applyWrap">
+        <a class="crumb" href="#/commander">‹ Back</a>
+        <header class="pagehead">
+          <span class="pill plain">Only 30 spots</span>
+          <h1 class="title">Apply as Commander</h1>
+          <p class="lede">Once submitted, your unique Commander referral link is generated.</p>
+        </header>
+        <div class="formcard">
+          <div class="progress" aria-label="Application progress">
+            <ol id="progressList">
+              <li class="on"><b>1</b>About you</li>
+              <li><b>2</b>Background</li>
+              <li><b>3</b>Motivation</li>
+            </ol>
+            <div class="bar"><i id="barFill"></i></div>
+          </div>
+          <form class="form" id="applyForm" novalidate>
+            <div class="step on" data-step="1" id="s1"></div>
+            <div class="step" data-step="2" id="s2"></div>
+            <div class="step" data-step="3" id="s3"></div>
+            <div class="formerr" id="applyErr" role="alert"></div>
+            <div class="actions">
+              <button type="button" class="btn" id="prevBtn" hidden>Back</button>
+              <button type="button" class="btn primary" id="nextBtn">Continue</button>
+              <button type="submit" class="btn primary" id="submitBtn" hidden>Lock In 1 of 30 Commander Spots</button>
+            </div>
+            <p class="note">We only collect what this form asks for. <a href="#/privacy">Privacy Policy</a></p>
+          </form>
+        </div>
+      </div>
+
+      <div class="done formcard" id="applyDone">
+        <div class="ok-mark" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2 style="font-size:clamp(1.5rem,5vw,2rem)">You are in, <span id="doneName">Commander</span>.</h2>
+        <p class="lede" style="margin-top:14px">Your unique Commander referral link is ready. It unlocks 30 referrals.</p>
+        <div class="reflink">
+          <input id="refLink" readonly aria-label="Your referral link">
+          <button type="button" id="copyBtn">Copy link</button>
+        </div>
+        <div class="points">
+          <b>0</b>
+          <span>Your points · 5 points for every Scouter you register. Locked for now.</span>
+        </div>
+        <button class="btn" disabled>Claim opens later</button>
+        <div class="follow">
+          <p>Follow Ruptvate on X and LinkedIn to stay updated.</p>
+          <div class="row">
+            <a class="btn sm" href="https://x.com/ruptvate" target="_blank" rel="noopener">Follow on X</a>
+            <a class="btn sm" href="https://www.linkedin.com/company/ruptvate" target="_blank" rel="noopener">Follow on LinkedIn</a>
+          </div>
+        </div>
+        <p style="margin-top:24px"><a class="btn sm" href="#/">Back to home</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BADGE -->
+<section class="view" data-view="badge" data-title="Early Supporters Badge · Ruptvate">
+  <div class="page">
+    <div class="narrow">
+      <header class="pagehead">
+        <span class="ico big"><i data-lucide="badge-check"></i></span>
+        <span class="pill plain">Coming soon</span>
+        <h1 class="title" style="margin-top:var(--s2)">Early Supporters Badge</h1>
+        <div class="price">$100</div>
+        <p class="lede">Limited badge for the first 1,000 supporters.</p>
+      </header>
+      <div class="formcard">
+        <div class="formhead">
+          <h2>Apply for the whitelist</h2>
+          <p>Enter your wallet address to be considered for the Early Supporters Badge whitelist.</p>
+        </div>
+        <form class="form" data-form="whitelist" novalidate></form>
+        <div class="done"><h2>Application received.</h2><p class="lede" style="margin-top:12px">We will email you if you are whitelisted.</p></div>
+      </div>
+      <p class="note" style="margin-top:var(--s2)">Badges are membership badges, not investments. No profit is promised. <a href="#/terms">Terms</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="view" data-view="contact" data-title="Contact us · Ruptvate">
+  <div class="page">
+    <div class="narrow">
+      <header class="pagehead">
+        <h1 class="title">Contact us</h1>
+        <p class="lede">Questions, support, partnerships and investor enquiries.</p>
+      </header>
+      <div class="formcard">
+        <form class="form" data-form="contact" novalidate></form>
+        <div class="done"><h2>Thank you.</h2><p class="lede" style="margin-top:12px">We will reply to you by email.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS -->
+<section class="view" data-view="terms" data-title="Terms of Service · Ruptvate">
+  <div class="page">
+    <div class="narrow legal">
+      <header class="pagehead"><h1 class="title">Terms of Service</h1></header>
+      <div class="card">
+        <ul>
+          <li>The details you give must be accurate.</li>
+          <li>Points, ranks and rewards depend on verified task submissions and can change as the programme grows.</li>
+          <li>Ruptvate NFT badges are membership badges. They are not investments and no profit is promised.</li>
+          <li>We can remove anyone who submits false or copied data.</li>
+          <li>Ruptvate decides who is activated as a Commander.</li>
+          <li>Questions: <a href="mailto:support@ruptvate.com">support@ruptvate.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="view" data-view="privacy" data-title="Privacy Policy · Ruptvate">
+  <div class="page">
+    <div class="narrow legal">
+      <header class="pagehead"><h1 class="title">Privacy Policy</h1></header>
+      <div class="card">
+        <ul>
+          <li>We collect what the forms ask for: name, email, wallet address for the whitelist, Telegram, X and LinkedIn details, education and experience, your reason for applying, and your CV.</li>
+          <li>We use it to review applications, run the programme and contact you.</li>
+          <li>If you become a Commander, your X handle and picture show on your referral page. We do not publish your CV.</li>
+          <li>To ask for your data to be deleted, email <a href="mailto:support@ruptvate.com">support@ruptvate.com</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-brand"><i></i>Ruptvate</div>
+    <p class="tagline">…from existence to dominance</p>
+    <nav class="f-nav" aria-label="Footer">
+      <a href="#/commander">Commander</a>
+      <a href="#/scouter">Scouter</a>
+      <a href="#/services">Services</a>
+      <a href="#/badge">Badge</a>
+    </nav>
+    <div class="socials">
+      <a href="https://x.com/ruptvate" target="_blank" rel="noopener"><i data-lucide="twitter"></i>X</a>
+      <a href="https://t.me/ruptvate" target="_blank" rel="noopener"><i data-lucide="send"></i>Telegram</a>
+      <a href="https://www.linkedin.com/company/ruptvate" target="_blank" rel="noopener"><i data-lucide="linkedin"></i>LinkedIn</a>
+      <a href="https://instagram.com/ruptvate" target="_blank" rel="noopener"><i data-lucide="instagram"></i>Instagram</a>
+    </div>
+    <div class="fine">
+      <span>© 2026 Ruptvate. All rights reserved.</span>
+      <a href="#/contact">Contact us</a>
+      <a href="#/terms">Terms of Service</a>
+      <a href="#/privacy">Privacy Policy</a>
+    </div>
+    <p class="ai">AI Support Agent · Coming soon</p>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script>
+/* ---------- CONFIG ----------
+   Put your existing form endpoints here. While a value is empty the form runs
+   in demo mode: it validates and shows success, but sends nothing. */
+const ENDPOINTS = { commander:"", whitelist:"", contact:"", consulting:"", register:"" };
+
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+
+/* ---------- field builder ---------- */
+function fld(form,o){
+  const id = form+'-'+o.name, req = o.opt ? '' : 'required';
+  const describe = `aria-describedby="${id}-msg${o.hint?` ${id}-hint`:''}"`;
+  let ctl;
+  if(o.options){
+    ctl = `<select id="${id}" name="${o.name}" ${req} ${describe}>${!o.noBlank?'<option value="">Select one</option>':''}${o.options.map(x=>`<option>${x}</option>`).join('')}</select>`;
+  } else if(o.type==='textarea'){
+    ctl = `<textarea id="${id}" name="${o.name}" ${req} ${describe}></textarea>`;
+  } else {
+    ctl = `<input id="${id}" name="${o.name}" type="${o.type||'text'}" ${req} ${describe} ${o.ac?`autocomplete="${o.ac}"`:''} ${o.ph?`placeholder="${o.ph}"`:''} ${o.accept?`accept="${o.accept}"`:''} ${o.nospell?'spellcheck="false" autocapitalize="off"':''}>`;
+  }
+  return `<div class="field"><label for="${id}">${o.label}${o.opt?' <span class="opt">Optional</span>':''}</label>${ctl}${o.hint?`<p class="hint" id="${id}-hint">${o.hint}</p>`:''}<p class="msg" id="${id}-msg" role="alert"></p></div>`;
+}
+const pair = (a,b)=>`<div class="fgrid">${a}${b}</div>`;
+const foot = (label)=>`<div class="formerr" role="alert"></div><div class="actions"><button class="btn primary" type="submit">${label}</button></div>`;
+
+$('[data-form="contact"]').innerHTML =
+  pair(fld('contact',{name:'name',label:'Your name',ac:'name'}), fld('contact',{name:'email',label:'Your email',type:'email',ac:'email'})) +
+  fld('contact',{name:'type',label:'Enquiry type',options:['General inquiry','Support','Partnership','Investor enquiry'],noBlank:true}) +
+  fld('contact',{name:'message',label:'Your message',type:'textarea'}) + foot('Send message');
+
+$('[data-form="whitelist"]').innerHTML =
+  fld('wl',{name:'wallet',label:'Wallet address',nospell:true,hint:'Never share your seed phrase or private key. We only need your public wallet address.'}) +
+  fld('wl',{name:'email',label:'Email',type:'email',ac:'email'}) + foot('Apply for whitelist');
+
+$('[data-form="consulting"]').innerHTML =
+  pair(fld('cons',{name:'name',label:'Your name',ac:'name'}), fld('cons',{name:'email',label:'Your email',type:'email',ac:'email'})) +
+  fld('cons',{name:'organisation',label:'Organisation',opt:true,ac:'organization'}) +
+  fld('cons',{name:'need',label:'What do you need help with',options:['Consulting and Advisory Services','Process Optimization','Emerging Technology Training','Workforce Development','Technological and Digital Transformation'],noBlank:true}) +
+  fld('cons',{name:'message',label:'Your message',type:'textarea'}) + foot('Send request');
+
+$('[data-form="register"]').innerHTML =
+  fld('reg',{name:'type',label:'I am applying as',options:['MSME','Vendor'],noBlank:true}) +
+  pair(fld('reg',{name:'name',label:'Your name',ac:'name'}), fld('reg',{name:'email',label:'Your email',type:'email',ac:'email'})) +
+  fld('reg',{name:'organisation',label:'Organisation',ac:'organization'}) +
+  fld('reg',{name:'message',label:'Tell us about it',type:'textarea',opt:true}) + foot('Submit');
+
+$('#s1').innerHTML =
+  pair(fld('a',{name:'fullName',label:'Full name',ac:'name'}), fld('a',{name:'email',label:'Email',type:'email',ac:'email'})) +
+  pair(fld('a',{name:'telegram',label:'Telegram handle',ph:'@handle',nospell:true}), fld('a',{name:'x',label:'X handle',ph:'@handle',nospell:true})) +
+  fld('a',{name:'linkedin',label:'LinkedIn link',type:'url',opt:true,ph:'https://'});
+$('#s2').innerHTML =
+  pair(fld('a',{name:'country',label:'Country',ac:'country-name'}), fld('a',{name:'state',label:'State'})) +
+  fld('a',{name:'city',label:'City'}) +
+  pair(
+    fld('a',{name:'education',label:'Educational level',options:['Student','Secondary school','OND / Diploma','HND',"Bachelor's degree",'Postgraduate diploma',"Master's degree",'Doctorate','Professional certification','Other']}),
+    fld('a',{name:'experience',label:'Experience level',options:['No experience yet','Under 1 year','1 to 3 years','3 to 5 years','5 to 10 years','10+ years']})
+  );
+$('#s3').innerHTML =
+  fld('a',{name:'why',label:'Why Commander',type:'textarea'}) +
+  fld('a',{name:'cv',label:'Upload CV',type:'file',accept:'.pdf,.doc,.docx',hint:'PDF or Word, up to 8 MB. We do not publish your CV.'});
+
+/* ---------- validation ---------- */
+function validate(el){
+  const msg = $('#'+el.id+'-msg'); let m = '';
+  const empty = el.type==='file' ? !el.files.length : !el.value.trim();
+  if(el.required && empty) m = el.type==='file' ? 'Upload your CV to continue.' : 'This field is required.';
+  else if(el.type==='email' && el.value && !/^\S+@\S+\.\S+$/.test(el.value.trim())) m = 'Enter a valid email address.';
+  else if(el.type==='url' && el.value && !/^https?:\/\/\S+\.\S+/.test(el.value.trim())) m = 'Enter a full link starting with https://';
+  else if(el.type==='file' && el.files[0] && el.files[0].size > 8*1024*1024) m = 'File is too large. Keep it under 8 MB.';
+  if(msg) msg.textContent = m;
+  el.setAttribute('aria-invalid', m ? 'true':'false');
+  return !m;
+}
+function validateAll(root){
+  let first = null, ok = true;
+  $$('input,select,textarea',root).forEach(el=>{ if(!validate(el)){ ok=false; if(!first) first=el; } });
+  if(first) first.focus();
+  return ok;
+}
+document.addEventListener('focusout',e=>{ const el=e.target; if(el.matches?.('.field input,.field select,.field textarea') && (el.value||el.getAttribute('aria-invalid')==='true')) validate(el); });
+document.addEventListener('input',e=>{ const el=e.target; if(el.getAttribute?.('aria-invalid')==='true') validate(el); });
+
+/* ---------- submit ---------- */
+async function send(key, fd){
+  const url = ENDPOINTS[key];
+  if(!url){ await new Promise(r=>setTimeout(r,600)); return {}; }
+  const res = await fetch(url,{method:'POST',body:fd});
+  if(!res.ok) throw new Error('Something went wrong ('+res.status+'). Please try again.');
+  try{ return await res.json(); }catch{ return {}; }
+}
+$$('form[data-form]').forEach(form=>{
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!validateAll(form)) return;
+    const err = $('.formerr',form), btn = $('button[type=submit]',form), label = btn.textContent;
+    err.textContent=''; btn.disabled=true; btn.textContent='Sending…';
+    try{
+      await send(form.dataset.form, new FormData(form));
+      form.hidden = true;
+      const head = $('.formhead',form.parentElement); if(head) head.hidden = true;
+      const d = $('.done',form.parentElement); d.classList.add('show');
+    }catch(x){ err.textContent = x.message; }
+    btn.disabled=false; btn.textContent=label;
+  });
+});
+
+/* ---------- Commander application (3 steps) ---------- */
+let step = 1;
+function showStep(n){
+  step = n;
+  $$('.step').forEach(s=>s.classList.toggle('on', +s.dataset.step===n));
+  $$('#progressList li').forEach((li,i)=>{ li.classList.toggle('on', i+1===n); li.classList.toggle('done', i+1<n); });
+  $('#barFill').style.width = (n/3*100)+'%';
+  $('#prevBtn').hidden = n===1; $('#nextBtn').hidden = n===3; $('#submitBtn').hidden = n!==3;
+  $('#applyErr').textContent='';
+  const first = $('.step.on input,.step.on select,.step.on textarea'); if(first) first.focus({preventScroll:true});
+}
+$('#nextBtn').addEventListener('click',()=>{ if(validateAll($('.step.on'))) showStep(step+1); });
+$('#prevBtn').addEventListener('click',()=>showStep(step-1));
+$('#applyForm').addEventListener('keydown',e=>{ if(e.key==='Enter' && step<3 && e.target.tagName!=='TEXTAREA'){ e.preventDefault(); $('#nextBtn').click(); } });
+
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24) || 'commander';
+$('#applyForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!validateAll($('.step.on'))) return;
+  const f = e.target, btn = $('#submitBtn'), err = $('#applyErr');
+  err.textContent=''; btn.disabled=true; btn.textContent='Locking in…';
+  try{
+    const fd = new FormData(f), out = await send('commander', fd);
+    const name = fd.get('fullName').toString().trim();
+    const link = out.referralLink || (location.origin + location.pathname + '#/join/' + slug(name) + '-' + Math.random().toString(36).slice(2,6));
+    $('#doneName').textContent = name.split(/\s+/)[0];
+    $('#refLink').value = link;
+    $('#applyWrap').hidden = true; $('#applyDone').classList.add('show'); window.scrollTo(0,0);
+  }catch(x){ err.textContent = x.message; }
+  btn.disabled=false; btn.textContent='Lock In 1 of 30 Commander Spots';
+});
+$('#copyBtn').addEventListener('click',async()=>{
+  const i = $('#refLink'), b = $('#copyBtn');
+  try{ await navigator.clipboard.writeText(i.value); }catch{ i.select(); document.execCommand('copy'); }
+  b.textContent='Copied'; setTimeout(()=>b.textContent='Copy link',1600);
+});
+
+/* ---------- navbar ---------- */
+const menuBtn = $('#menuBtn'), drawer = $('#drawer');
+function setMenu(open){
+  drawer.classList.toggle('open', open);
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+menuBtn.addEventListener('click',()=>setMenu(!drawer.classList.contains('open')));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') setMenu(false); });
+document.addEventListener('click',e=>{ if(drawer.classList.contains('open') && !e.target.closest('header.top')) setMenu(false); });
+window.matchMedia('(min-width:881px)').addEventListener('change',()=>setMenu(false));
+
+/* ---------- router ---------- */
+const routes = {
+  '/':'home','/commander':'commander','/scouter':'scouter','/services':'services','/services/campus':'campus',
+  '/services/consulting':'consulting','/services/register':'register','/apply':'apply','/badge':'badge',
+  '/contact':'contact','/terms':'terms','/privacy':'privacy'
+};
+const navGroup = { commander:'commander',apply:'commander',scouter:'scouter',services:'services',campus:'services',consulting:'services',register:'services',badge:'badge' };
+
+function route(){
+  const raw = (location.hash.replace(/^#/,'') || '/');
+  const [pathRaw,qs] = raw.split('?'); let path = pathRaw.replace(/\/+$/,'') || '/';
+  let ref = new URLSearchParams(location.search).get('ref'), m;
+  if((m = path.match(/^\/join\/([\w-]+)$/))){ ref = m[1]; path = '/scouter'; }
+  const name = routes[path] || 'home';
+  $$('.view').forEach(v=>v.classList.toggle('on', v.dataset.view===name));
+  const view = $('.view.on');
+  document.title = view.dataset.title;
+  $$('[data-nav]').forEach(a=>{ a.dataset.nav===navGroup[name] ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'); });
+  if(name==='scouter'){
+    const inv = $('#invite');
+    if(ref){ $('#inviteName').textContent = ref.replace(/-[a-z0-9]{4}$/,'').replace(/[-_]/g,' '); inv.classList.add('show'); } else inv.classList.remove('show');
+  }
+  if(name==='register'){
+    const t = new URLSearchParams(qs||'').get('type'); if(t) $('#reg-type').value = t;
+  }
+  setMenu(false);
+  window.scrollTo(0,0);
+  if(window.lucide) lucide.createIcons();
+  const h = $('h1',view); if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); }
+}
+window.addEventListener('hashchange',route);
+route();
+</script>
+</body>
+</html>
