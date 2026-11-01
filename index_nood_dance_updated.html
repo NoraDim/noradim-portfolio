@@ -1,0 +1,1229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ruptvate — from existence to dominance</title>
+<meta name="description" content="Ruptvate brings builders, data teams and communities into one network where completed tasks count and rank is earned.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Schibsted+Grotesk:wght@400;500;700&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#e2e2e2; --blue:#1250a1; --bone2:#d2d2d2; --ink:#050149; --ink2:#050149; --signal:#ff9900;
+  --line:2px solid var(--ink);
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --body:'Schibsted Grotesk',system-ui,sans-serif;
+  --mono:'Martian Mono',ui-monospace,monospace;
+  --gutter:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bone);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;text-align:center;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+.wrap{width:min(1120px,100% - 2*var(--gutter));margin-inline:auto}
+.narrow{width:min(720px,100% - 2*var(--gutter));margin-inline:auto}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.display{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.86;letter-spacing:-.005em}
+h1.display{font-size:clamp(3rem,10.5vw,7.5rem)}
+h2.display{font-size:clamp(2.6rem,8vw,6rem)}
+h3.display{font-size:clamp(1.8rem,4vw,2.6rem);line-height:.95}
+.hl{background:var(--signal);color:var(--ink);padding:0 .12em;display:inline-block}
+.lede{font-size:clamp(1.05rem,2vw,1.28rem);max-width:40ch;margin-inline:auto}
+p+p{margin-top:1em}
+
+/* ticker */
+.ticker{background:var(--ink);color:var(--bone);overflow:hidden;white-space:nowrap;border-bottom:var(--line)}
+.ticker-track{display:inline-flex;animation:tick 38s linear infinite;padding:9px 0}
+.ticker span{padding-inline:28px}
+.ticker b{color:var(--signal);font-weight:500}
+@keyframes tick{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}html{scroll-behavior:auto}}
+
+/* nav */
+header.top{position:sticky;top:0;z-index:30;background:var(--bone);border-bottom:var(--line)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+.brand{font-family:var(--display);font-weight:900;font-size:2rem;letter-spacing:.02em;text-decoration:none;line-height:1}
+.brand i{color:var(--signal);font-style:normal}
+nav.links{display:flex;gap:6px;align-items:center}
+nav.links a{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:9px 12px;border:2px solid transparent}
+nav.links a:hover,nav.links a[aria-current="page"]{border-color:var(--ink)}
+.menu-btn{display:none;border:var(--line);padding:8px 12px}
+@media (max-width:820px){
+  .menu-btn{display:block}
+  nav.links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--bone);border-bottom:var(--line);flex-direction:column;padding:12px var(--gutter) 20px}
+  nav.links.open{display:flex}
+  nav.links a{width:100%;padding:14px}
+}
+
+/* buttons */
+.btn{display:inline-block;font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:16px 26px;border:var(--line);background:var(--bone);box-shadow:5px 5px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink)}
+.btn.sig{background:var(--signal)}
+.btn.dark{background:var(--ink);color:var(--bone);box-shadow:5px 5px 0 var(--signal);border-color:var(--ink)}
+.btn.dark:hover{box-shadow:2px 2px 0 var(--signal)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.row{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+
+/* sections */
+section{padding:clamp(64px,10vw,130px) 0;border-bottom:var(--line)}
+section.dark{background:var(--ink);color:var(--bone)}
+section.dark .mono.k{color:var(--signal)}
+.k{display:block;margin-bottom:22px}
+.sec-head{margin-bottom:clamp(36px,6vw,70px)}
+.sec-head p{margin-top:22px}
+
+/* hero */
+.hero{padding-top:clamp(28px,4vw,56px)}
+.seg{display:inline-flex;border:var(--line);margin:0 auto 26px}
+.seg button{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;padding:13px 24px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bone)}
+.invite{display:none;margin:0 auto 28px;border:2px dashed var(--ink);padding:10px 18px;max-width:max-content}
+.invite.show{display:block}
+.hero h1{margin-bottom:24px;line-height:.98}
+.hero h1 .hl{white-space:nowrap;padding:0 .1em}
+@media (max-width:600px){.hero h1.display{font-size:8.6vw;white-space:nowrap}}
+.hero .lede{margin-bottom:30px}
+
+
+/* animated hero background */
+.hero{position:relative;overflow:hidden}
+.hero>.wrap{position:relative;z-index:1}
+.bg{position:absolute;inset:0;overflow:hidden;background:var(--bone)}
+.bg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated;pointer-events:none}
+
+
+/* rich layer */
+section.glow{background:radial-gradient(60% 55% at 50% 40%,rgba(18,80,161,.6),transparent 72%),radial-gradient(40% 35% at 85% 90%,rgba(255,153,0,.16),transparent 70%),var(--ink);color:var(--bone);overflow:hidden}
+section.glow .mono.k{color:var(--signal)}
+.net{max-width:620px;margin:0 auto;border:2px solid rgba(226,226,226,.35);background:rgba(5,1,73,.55)}
+.net svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin:18px 0 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
+.proof{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(40px,6vw,72px);border:2px solid var(--bone);background:rgba(5,1,73,.6)}
+.proof>div{padding:26px 16px;border-right:2px solid rgba(226,226,226,.35)}
+.proof>div:last-child{border-right:0}
+.proof b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(2.6rem,6vw,4rem);line-height:.9;color:var(--signal)}
+.proof span{display:block;margin-top:10px;font-size:.92rem}
+@media (max-width:760px){.proof{grid-template-columns:1fr 1fr}.proof>div{border-bottom:2px solid rgba(226,226,226,.35)}.proof>div:nth-child(2n){border-right:0}}
+.about{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,5vw,64px);align-items:center;text-align:left}
+.about img{display:block;width:100%;height:auto;border:2px solid var(--ink);box-shadow:10px 10px 0 var(--signal)}
+.statement{display:flex;flex-direction:column;justify-content:center;min-height:clamp(170px,22vw,240px);padding:clamp(22px,3vw,36px);text-align:center;color:var(--bone);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--signal);background:radial-gradient(70% 70% at 50% 35%,rgba(18,80,161,.65),transparent 75%),var(--ink)}
+.statement .display{font-size:clamp(1.9rem,4.2vw,3rem);line-height:.95}
+.statement .mono.k{color:var(--signal)}
+.about h3{margin:0 0 8px}
+.about p+h3{margin-top:26px}
+.vals{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.vals span{border:2px solid var(--ink);padding:8px 16px;background:var(--bone)}
+@media (max-width:820px){.about{grid-template-columns:1fr}}
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}}
+
+/* slots */
+.slots-wrap{margin-top:clamp(36px,5vw,56px)}
+.slots{display:grid;grid-template-columns:repeat(10,1fr);max-width:760px;margin:26px auto 0;border-top:var(--line);border-left:var(--line)}
+.slots li{list-style:none;aspect-ratio:1;border-right:var(--line);border-bottom:var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em}
+.slots li{transition:background .5s,color .5s}
+.slots li.taken{background:var(--signal);color:var(--ink);font-weight:500}
+.slots li.just{animation:pop .8s ease}
+@keyframes pop{50%{transform:scale(1.18)}}
+@media (max-width:620px){.slots{grid-template-columns:repeat(6,1fr)}}
+.big-n{font-family:var(--display);font-weight:900;font-size:clamp(5rem,16vw,11rem);line-height:.8}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);border:var(--line);background:var(--bone)}
+.step{padding:clamp(28px,4vw,48px) 24px;border-right:var(--line)}
+.step:last-child{border-right:0}
+.step .no{font-family:var(--display);font-weight:900;font-size:5rem;line-height:.8;color:var(--signal);display:block;margin-bottom:16px}
+.step h3{margin-bottom:12px}
+@media (max-width:820px){.steps{grid-template-columns:1fr}.step{border-right:0;border-bottom:var(--line)}.step:last-child{border-bottom:0}}
+
+/* roles */
+.panel{display:none}
+.panel.on{display:block}
+.duo{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--bone);text-align:center}
+.duo>div{padding:clamp(28px,4vw,52px)}
+.duo>div+div{border-left:2px solid var(--bone)}
+.duo h3{margin-bottom:20px;color:var(--signal)}
+.duo ul{list-style:none}
+.duo li{padding:14px 0;border-top:1px solid rgba(226,226,226,.28)}
+.duo li:first-child{border-top:0}
+@media (max-width:820px){.duo{grid-template-columns:1fr}.duo>div+div{border-left:0;border-top:2px solid var(--bone)}}
+.roles-cta{margin-top:48px}
+
+/* ladder */
+.tracks{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,48px)}
+@media (max-width:820px){.tracks{grid-template-columns:1fr}}
+.track{border:var(--line);background:var(--bone)}
+.track>.mono{display:block;padding:14px;background:var(--ink);color:var(--bone)}
+.rung{padding:22px 16px;border-top:var(--line);position:relative}
+.rung:first-of-type{border-top:0}
+.rung strong{display:block;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:2.1rem;line-height:1}
+.rung small{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+.rung.hit{background:var(--signal)}
+.rung+.rung::before{content:"";position:absolute;left:50%;top:-14px;width:2px;height:26px;background:var(--ink);transform:translateX(-50%)}
+
+/* badge */
+.badge-card{border:2px solid var(--bone);padding:clamp(32px,6vw,72px) var(--gutter);position:relative}
+.badge-card .price{font-family:var(--display);font-weight:900;font-size:clamp(5rem,18vw,12rem);line-height:.8;color:var(--signal)}
+.tag{display:inline-block;border:2px solid var(--bone);padding:6px 12px;margin-bottom:26px}
+
+/* services */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:var(--line);background:var(--bone)}
+.pillar{padding:clamp(28px,4vw,48px) 22px;border-right:var(--line);display:flex;flex-direction:column;align-items:center;gap:14px}
+.pillar:last-child{border-right:0}
+.pillar ul{list-style:none;font-size:.95rem}
+.pillar li{padding:6px 0}
+.pillar .btn{margin-top:auto}
+@media (max-width:820px){.pillars{grid-template-columns:1fr}.pillar{border-right:0;border-bottom:var(--line)}.pillar:last-child{border-bottom:0}}
+.loop{margin-top:40px}
+
+/* views */
+.view{display:none}
+.view.on{display:block}
+.page-head{padding:clamp(56px,9vw,110px) 0 clamp(36px,6vw,64px);border-bottom:var(--line)}
+.back{display:inline-block;margin-bottom:34px;text-decoration:none;border-bottom:2px solid var(--ink)}
+
+/* forms */
+.form{display:grid;gap:22px;text-align:left;max-width:720px;margin:0 auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+.f label{display:block;margin-bottom:8px}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:1rem;padding:14px;background:var(--bone);color:var(--ink);border:var(--line);border-radius:0;appearance:none}
+.f select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+.f textarea{min-height:130px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:3px solid var(--signal);outline-offset:0}
+.f .opt{opacity:.55}
+.form .btn{justify-self:center;margin-top:8px}
+.err{color:#B00;font-family:var(--mono);font-size:.74rem;text-align:center;min-height:1em}
+.note{font-size:.88rem;opacity:.75;text-align:center}
+.apply-grid{padding:clamp(48px,8vw,90px) 0}
+.done{display:none;border:var(--line);padding:clamp(28px,5vw,56px);max-width:720px;margin:0 auto;background:var(--bone)}
+.done.show{display:block}
+.reflink{display:flex;gap:0;margin:26px 0;border:var(--line)}
+.reflink input{flex:1;min-width:0;font-family:var(--mono);font-size:.78rem;padding:14px;background:var(--bone);border:0;text-align:center}
+.reflink button{background:var(--ink);color:var(--bone);padding:0 22px;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
+.pts{border:2px dashed var(--ink);padding:22px;margin-bottom:26px}
+.pts .big-n{font-size:5rem;display:block}
+
+/* dialogs */
+dialog{margin:auto;border:var(--line);background:var(--bone);color:var(--ink);width:min(640px,100% - 24px);max-height:92vh;padding:0;box-shadow:10px 10px 0 var(--ink)}
+dialog::backdrop{background:rgba(5,1,73,.72)}
+.dlg{padding:clamp(24px,4vw,44px);position:relative}
+.dlg h3{margin-bottom:10px}
+.dlg .lede{margin-bottom:26px;font-size:1rem}
+.x{position:absolute;top:10px;right:10px;width:42px;height:42px;border:var(--line);font-size:1.3rem;line-height:1}
+.x:hover{background:var(--ink);color:var(--bone)}
+.legal{text-align:left}
+.legal ul{padding-left:1.1em;display:grid;gap:12px;margin-top:20px}
+.ok{display:none}
+.ok.show{display:block;padding:20px 0}
+
+/* footer */
+footer{background:var(--ink);color:var(--bone);padding:clamp(56px,9vw,110px) 0 32px}
+footer .mega{font-size:clamp(3.4rem,15vw,12rem);color:var(--bone)}
+footer .mega i{color:var(--signal);font-style:normal}
+.tagline{margin:18px 0 40px;color:var(--signal)}
+.socials{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:44px}
+.socials a{border:2px solid var(--bone);padding:12px 18px;text-decoration:none}
+.socials a:hover{background:var(--bone);color:var(--ink)}
+.fine{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;border-top:1px solid rgba(226,226,226,.3);padding-top:26px}
+.fine button,.fine a{text-decoration:underline;text-underline-offset:4px}
+.soon{display:inline-block;margin-top:26px;border:2px dashed var(--bone);padding:8px 14px;opacity:.8}
+
+/* --- referral gating + new pieces --- */
+body[data-mode="commander"] [data-only="scouter"],body[data-mode="scouter"] [data-only="commander"]{display:none!important}
+.gone{display:none!important}
+.invite{display:flex;align-items:center;justify-content:center;gap:10px;border-color:var(--blue)}
+.qs{display:flex;max-width:460px;margin:28px auto 0;border:var(--line);background:var(--bone)}
+.qs input{flex:1;min-width:0;padding:14px;font:inherit;background:var(--bone);color:var(--ink);border:0;border-radius:0}
+.qs .btn{box-shadow:none;border:0;border-left:var(--line)}
+.pic{display:flex;justify-content:center;margin:0 auto 10px}
+.av{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font:900 1.8rem var(--display);border:2px solid var(--ink);overflow:hidden}
+.av.sm{width:34px;height:34px;font-size:1rem;flex:none}
+.av img{width:100%;height:100%;object-fit:cover}
+.track>.mono{background:var(--blue)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.ts-box{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:200}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bone);border:2px solid var(--signal);padding:12px 20px;opacity:0;pointer-events:none;transition:.2s;font-family:var(--mono);font-size:.78rem;z-index:300;max-width:90vw}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* --- role flip cards --- */
+.flip-hint{margin:0 0 22px;color:var(--signal)}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(14px,2vw,24px)}
+.fc{perspective:1200px;cursor:pointer;outline-offset:4px}
+.fc-in{display:grid;height:100%;transition:transform .7s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.fc.flipped .fc-in{transform:rotateY(180deg)}
+.fc-face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;min-height:290px;padding:26px 22px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid var(--bone)}
+.fc-front p{font-size:1.08rem}
+.fc-front:hover{border-color:var(--signal)}
+.fc-back{transform:rotateY(180deg);background:var(--signal);color:var(--ink);border-color:var(--signal)}
+.fc-back p{font-weight:500;font-size:1rem}
+section.dark .fc-back .mono.k{color:var(--ink)}
+.fc .hint{margin-top:18px;opacity:.6;font-size:.6rem}
+/* --- badge: fits the screen, flips to the whitelist form --- */
+#badge{padding:clamp(20px,4vh,48px) 0}
+#badge .badge-card{padding:clamp(18px,4vh,44px) clamp(16px,4vw,48px);background:var(--ink)}
+#badge .tag{margin-bottom:clamp(8px,2vh,22px)}
+#badge h2.display{font-size:clamp(2rem,7.5vh,4.6rem);margin-bottom:clamp(8px,1.5vh,18px)}
+#badge .price{font-size:clamp(3.2rem,16vh,9rem)}
+#badge .bc-mono{margin:clamp(10px,2vh,22px) 0 clamp(14px,3vh,28px)}
+#badge .note{margin-top:clamp(12px,2.5vh,24px);color:var(--bone)}
+#badge .back .lede{font-size:.95rem;margin-bottom:clamp(12px,2vh,22px)}
+#badge .back .note{margin-top:0}
+#badge .err{color:var(--signal)}
+#badge .unflip{display:block;margin:0 auto clamp(8px,2vh,18px);border:2px solid var(--bone);padding:8px 14px}
+#badge .unflip:hover{background:var(--bone);color:var(--ink)}
+.badge-flip{display:grid;perspective:1800px}
+.badge-flip>.face{grid-area:1/1;max-height:calc(100svh - 24px);overflow:auto;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .8s cubic-bezier(.2,.7,.2,1),visibility 0s}
+.badge-flip>.back{transform:rotateY(180deg);visibility:hidden;transition:transform .8s cubic-bezier(.2,.7,.2,1),visibility 0s .4s}
+.badge-flip.flipped>.front{transform:rotateY(-180deg);visibility:hidden;transition:transform .8s cubic-bezier(.2,.7,.2,1),visibility 0s .4s}
+.badge-flip.flipped>.back{transform:rotateY(0);visibility:visible;transition:transform .8s cubic-bezier(.2,.7,.2,1),visibility 0s}
+@media (prefers-reduced-motion:reduce){.fc-in,.badge-flip>.face{transition:none!important}}
+
+/* --- badge card: narrower with height, no blank space, clear spacing between top label and title --- */
+#badge .narrow{width:min(100% - 2*var(--gutter),clamp(320px,72vh,580px))}
+.badge-flip{align-items:start;transition:height .5s ease}
+.badge-flip>.face{align-self:start}
+#badge .tag{margin-bottom:clamp(14px,2.6vh,26px)}
+#badge h2.display{padding-top:.12em}
+#badge .unflip{margin-bottom:clamp(14px,2.6vh,26px)}
+
+/* --- roles toggle highlight --- */
+section.dark .seg button[aria-pressed="true"]{background:var(--signal);color:var(--ink)}
+/* --- badge: back face = exactly the front's size, smaller type so the form fits --- */
+#badge .badge-flip{display:block;position:relative}
+#badge .badge-flip>.front{position:relative}
+#badge .badge-flip>.back{position:absolute;inset:0;max-height:none;overflow:auto;display:flex;flex-direction:column;justify-content:center;font-size:clamp(10px,1.7vh,16px);padding:1.4em 1.8em}
+#badge .back .unflip{font-size:.8em;padding:.5em 1em;margin:0 auto 1em}
+#badge .back h2.display{font-size:2.4em;line-height:.95;margin-bottom:.4em;padding-top:.1em}
+#badge .back .lede{font-size:.92em;max-width:none;margin:0 auto 1em;line-height:1.4}
+#badge .back .form{gap:.8em;max-width:none}
+#badge .back .f label{font-size:.78em;margin-bottom:.35em;letter-spacing:.1em}
+#badge .back .f input{font-size:1em;padding:.6em .75em}
+#badge .back .note{font-size:.78em;line-height:1.35;margin:0}
+#badge .back .err{font-size:.75em;min-height:0}
+#badge .back .btn{font-size:.85em;padding:.85em 1.4em;margin-top:.2em}
+#badge .back .ok h3{font-size:2.2em}
+#badge .back .ok p{font-size:.95em}
+
+/* --- slots: blue while filling, orange for the last 5, "Done" on the final card --- */
+.slots li.taken{background:var(--blue);color:#fff}
+.slots li.taken.hot{background:var(--signal);color:var(--ink)}
+.slots li:last-child.taken.hot{font-weight:700}
+.big-n.low{color:var(--signal)}
+/* --- role columns: each card is only as tall as its own content --- */
+.duo{border:0;gap:clamp(14px,2vw,24px);align-items:start}
+.duo>div{border:2px solid var(--bone)}
+.duo>div+div{border-left:2px solid var(--bone)}
+@media (max-width:820px){.duo>div+div{border-top:2px solid var(--bone)}}
+</style>
+</head>
+<body data-mode="commander">
+
+<div class="ticker" aria-label="Announcement">
+  <div class="ticker-track mono" aria-hidden="false">
+    <span><b>■</b> Early Supporters Badge NFT</span><span>First 1,000 supporters</span><span>$50 each</span><span><b>■</b> Only 30 Commander spots</span><span>Lock in your link</span>
+    <span><b>■</b> Early Supporters Badge NFT</span><span>First 1,000 supporters</span><span>$50 each</span><span><b>■</b> Only 30 Commander spots</span><span>Lock in your link</span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#/" data-home aria-label="Ruptvate home">RUPT<i>V</i>ATE</a>
+    <button class="menu-btn mono" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="links" id="nav" aria-label="Main">
+      <a href="#/" data-home data-nav="/">Home</a>
+      <a href="#/services" data-nav="/services">Services</a>
+      <a href="#/apply" id="navApply">Apply as Commander</a>
+      <a href="#" data-open="whitelist">Badge whitelist</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HOME ============ -->
+<div class="view" data-view="home">
+
+  <section class="hero">
+    <div class="bg" data-scene="squad" aria-hidden="true"><canvas class="bg-gl"></canvas><canvas class="bg-sc" hidden></canvas></div>
+    <div class="wrap">
+      <div class="invite mono" id="invite" data-only="scouter"><span class="av sm" id="invAv"></span><span>You’ve been invited to join <b id="inviteName">your Commander</b>’s squad</span></div>
+      <p class="err" id="fullNote" role="alert"></p>
+
+      <h1 class="display">Join early.<br>Lead a squad.<br>Earn from<br><span class="hl">verified work.</span></h1>
+      <p class="lede">Ruptvate brings builders, data teams and communities into one network where completed tasks count and rank is earned.</p>
+
+      <div class="row">
+        <a class="btn sig" id="heroCta" href="#/apply">Become a Commander</a>
+        <a class="btn" href="#/services">Explore Services</a>
+      </div>
+
+      <form class="qs" id="qs" data-only="scouter" novalidate>
+        <input name="qx" placeholder="Your X handle (@handle)" aria-label="Your X handle" pattern="@?[A-Za-z0-9_]{1,15}" autocomplete="off" required>
+        <button class="btn dark" type="submit">Start application</button>
+      </form>
+
+      <div class="slots-wrap" data-only="commander">
+        <span class="mono k">Commander slots</span>
+        <div class="big-n" id="slotsLeft">30</div>
+        <ul class="slots" id="slots" aria-label="30 Commander slots in total"></ul>
+        <p class="mono" id="slotsNote" style="margin-top:22px">Only 30 spots · Apply early to lock in your link</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="glow" id="network">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="mono k">The network</span>
+        <h2 class="display">One network.<br>Real work.<br><span class="hl">Verified.</span></h2>
+        <p class="lede">Commanders lead squads, Scouters complete tasks, and every verified task counts toward rank and reward.</p>
+      </div>
+      <div class="net rv"><svg viewBox="0 0 560 420" role="img" aria-label="A Commander at the centre receiving verified tasks from six Scouters"><circle cx="280" cy="210" r="150" fill="none" stroke="#e2e2e2" stroke-opacity=".18" stroke-dasharray="3 7"/><circle cx="280" cy="210" r="95" fill="none" stroke="#e2e2e2" stroke-opacity=".12"/><line x1="280" y1="60" x2="280" y2="210" stroke="#e2e2e2" stroke-opacity=".35" stroke-width="1.5"/><line x1="400" y1="100" x2="280" y2="210" stroke="#e2e2e2" stroke-opacity=".35" stroke-width="1.5"/><line x1="430" y1="230" x2="280" y2="210" stroke="#e2e2e2" stroke-opacity=".35" stroke-width="1.5"/><line x1="340" y1="350" x2="280" y2="210" stroke="#e2e2e2" stroke-opacity=".35" stroke-width="1.5"/><line x1="190" y1="340" x2="280" y2="210" stroke="#e2e2e2" stroke-opacity=".35" stroke-width="1.5"/><line x1="120" y1="200" x2="280" y2="210" stroke="#e2e2e2" stroke-opacity=".35" stroke-width="1.5"/><circle cx="280" cy="60" r="12" fill="#1250a1" stroke="#e2e2e2" stroke-width="2"/><circle cx="400" cy="100" r="12" fill="#1250a1" stroke="#e2e2e2" stroke-width="2"/><circle cx="430" cy="230" r="12" fill="#1250a1" stroke="#e2e2e2" stroke-width="2"/><circle cx="340" cy="350" r="12" fill="#1250a1" stroke="#e2e2e2" stroke-width="2"/><circle cx="190" cy="340" r="12" fill="#1250a1" stroke="#e2e2e2" stroke-width="2"/><circle cx="120" cy="200" r="12" fill="#1250a1" stroke="#e2e2e2" stroke-width="2"/><circle r="4.5" fill="#ff9900"><animateMotion dur="2.40s" begin="0.00s" repeatCount="indefinite" path="M280 60 L280 210"/></circle><circle r="4.5" fill="#ff9900"><animateMotion dur="2.77s" begin="0.45s" repeatCount="indefinite" path="M400 100 L280 210"/></circle><circle r="4.5" fill="#ff9900"><animateMotion dur="3.14s" begin="0.90s" repeatCount="indefinite" path="M430 230 L280 210"/></circle><circle r="4.5" fill="#ff9900"><animateMotion dur="3.51s" begin="1.35s" repeatCount="indefinite" path="M340 350 L280 210"/></circle><circle r="4.5" fill="#ff9900"><animateMotion dur="3.88s" begin="1.80s" repeatCount="indefinite" path="M190 340 L280 210"/></circle><circle r="4.5" fill="#ff9900"><animateMotion dur="4.25s" begin="2.25s" repeatCount="indefinite" path="M120 200 L280 210"/></circle><circle cx="280" cy="210" r="38" fill="#050149" stroke="#ff9900" stroke-width="3"/><text x="280" y="216" text-anchor="middle" fill="#e2e2e2" font-size="15" font-weight="700" style="font-family:var(--display);letter-spacing:.06em">CMD</text></svg></div>
+      <div class="legend mono rv"><span><i style="background:#050149;border:2px solid #ff9900"></i>Commander</span><span><i style="background:#1250a1"></i>Scouter</span><span><i style="background:#ff9900"></i>Verified task</span></div>
+      <div class="proof rv">
+        <div><b>5</b><span>services for businesses and organisations</span></div>
+        <div><b>3</b><span>ways we work: MSMEs and startups, organisations, consultancy</span></div>
+        <div><b>30</b><span>Commander spots open in the first squad</span></div>
+        <div><b>1,000</b><span>Early Supporters Badges, $50 each</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">How it works</span>
+        <h2 class="display">Squads do the work.<br>Rank is the receipt.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="no">01</span><h3 class="display">Lead</h3><p>Commanders claim a referral link and invite Scouters to build a squad.</p></div>
+        <div class="step"><span class="no">02</span><h3 class="display">Deliver</h3><p>Squads coordinate real business data tasks: accurate, clean, on deadline.</p></div>
+        <div class="step"><span class="no">03</span><h3 class="display">Earn</h3><p>Every verified task earns points. Verified work moves you up the ranks.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark" id="roles">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">Pick your role</span>
+        <h2 class="display">Commander<br>or Scouter.</h2>
+        <div class="seg" data-only="commander" role="group" aria-label="Role details" style="margin-top:34px;margin-bottom:0;border-color:var(--bone)">
+          <button type="button" data-tab="commander" aria-pressed="true" class="role-tab">Commander</button>
+          <button type="button" data-tab="scouter" aria-pressed="false" class="role-tab">Scouter</button>
+        </div>
+      </div>
+
+      <div class="panel on" data-panel="commander">
+        <div class="duo">
+          <div>
+            <h3 class="display">What you do</h3>
+            <ul>
+              <li>Claim 1 of the exclusive Commander referral links.</li>
+              <li>Invite Scouters using your referral link to build and lead your prospective squad.</li>
+              <li>Oversee task submission quality and keep your squad active.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="display">Rewards</h3>
+            <ul>
+              <li>Earn point overrides from all verified work completed by your squad.</li>
+              <li>Hit 25 verified squad tasks to mint your Commander NFT Badge.</li>
+              <li>Level up to Veteran, Master, and Super Commander (100 tasks) to unlock core employment opportunities.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roles-cta"><a class="btn sig" href="#/apply">Apply now</a></div>
+      </div>
+
+      <div class="panel" data-panel="scouter">
+        <div class="duo">
+          <div>
+            <h3 class="display">What you do</h3>
+            <ul>
+              <li>Complete assigned data-collection tasks accurately.</li>
+              <li>Submit clean entries and hit batch deadlines.</li>
+              <li>Work with your Commander to boost your squad’s verified completions.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="display">Rewards</h3>
+            <ul>
+              <li>Earn points for every single verified task submission.</li>
+              <li>Hit 25 verified tasks to mint your official Scouter NFT Badge.</li>
+              <li>Level up to Veteran, Master, and Super Scouter (100 tasks) to unlock the Commander Role.</li>
+              <li>Opportunity to improve your community quality of life.</li>
+              <li>Opportunity to lead a project when your onboarded businesses are selected for outreach or support.</li>
+              <li>Gain first-hand leadership experience while managing business data, plus earn a project stipend to support your field operations if your community initiative is selected.</li>
+              <li>Unlock priority recommendations to our partner network and supported business hiring pools once you reach Super Scouter and secure the Commander role.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roles-cta" data-only="scouter"><a class="btn sig" data-sapply href="#/">Apply now</a></div>
+        <p class="note" data-only="commander" style="margin-top:22px;color:var(--bone)">Scouters join through a Commander’s referral link.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ranks">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">The ladder</span>
+        <h2 class="display">Two tracks.<br>One way up.</h2>
+        <p class="lede">Rank is earned by verified tasks, nothing else.</p>
+      </div>
+      <div class="tracks">
+        <div class="track">
+          <span class="mono">Scouter track</span>
+          <div class="rung"><strong>Scouter</strong><small>Earn points per verified task</small></div>
+          <div class="rung hit"><strong>25 tasks</strong><small>Mint Scouter NFT Badge</small></div>
+          <div class="rung"><strong>Veteran</strong><small>Level up</small></div>
+          <div class="rung"><strong>Master</strong><small>Level up</small></div>
+          <div class="rung hit"><strong>Super Scouter</strong><small>100 tasks · unlocks the Commander role</small></div>
+        </div>
+        <div class="track">
+          <span class="mono">Commander track</span>
+          <div class="rung"><strong>Commander</strong><small>Point overrides on squad work</small></div>
+          <div class="rung hit"><strong>25 squad tasks</strong><small>Mint Commander NFT Badge</small></div>
+          <div class="rung"><strong>Veteran</strong><small>Level up</small></div>
+          <div class="rung"><strong>Master</strong><small>Level up</small></div>
+          <div class="rung hit"><strong>Super Commander</strong><small>100 tasks · unlocks core employment</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" style="background:var(--bone2)">
+    <div class="wrap">
+      <div class="about">
+        <div class="statement rv"><span class="mono k" style="margin-bottom:14px">Ruptvate</span><div class="display">From existence<br>to <span class="hl">dominance.</span></div></div>
+        <div class="rv">
+          <span class="mono k">Why Ruptvate</span>
+          <h3 class="display">Our mission</h3>
+          <p>To empower MSMEs and startups in overcoming organizational challenges and achieving sustainable business growth through innovative solutions.</p>
+          <h3 class="display">Our vision</h3>
+          <p>To transform every organization from mere existence to market dominance.</p>
+          <div class="vals mono"><span>Integrity</span><span>Innovation</span><span>Impact</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark" id="badge">
+    <div class="narrow">
+      <div class="badge-flip" id="badgeFlip">
+        <div class="badge-card face front">
+          <span class="tag mono">Coming soon</span>
+          <h2 class="display">Early Supporters<br>Badge NFT</h2>
+          <div class="price">$50</div>
+          <p class="mono bc-mono">Limited badge · first 1,000 supporters</p>
+          <button class="btn sig" data-open="whitelist">Apply for whitelist</button>
+          <p class="note">Badges are membership badges, not investments. No profit is promised.</p>
+        </div>
+        <div class="badge-card face back" aria-hidden="true">
+          <button class="mono unflip" type="button" data-unflip>‹ Back to badge</button>
+          <h2 class="display">Apply for the whitelist</h2>
+          <p class="lede">Enter your public Ethereum-format wallet address used on Base to be considered for the Early Supporters Badge whitelist.</p>
+          <form class="form f" data-form="whitelist" novalidate>
+            <div><label class="mono">ETH wallet address on Base</label><input name="wallet" required pattern="0x[a-fA-F0-9]{40}" title="Enter a 42-character public Ethereum address starting with 0x" placeholder="0x…" autocomplete="off" spellcheck="false"></div>
+            <div><label class="mono">Email</label><input name="email" type="email" required></div>
+            <p class="note">Never share your seed phrase or private key. We only need your public wallet address.</p>
+            <div class="err" role="alert"></div>
+            <button class="btn sig" type="submit">Apply for whitelist</button>
+          </form>
+          <div class="ok"><h3 class="display">Application received.</h3><p>We will email you if you are whitelisted.</p><button class="btn sig" type="button" data-unflip style="margin-top:18px">Back to badge</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="svc-teaser">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono k">Beyond the squads</span>
+        <h2 class="display">Consulting. Campus.<br>Marketplace.</h2>
+        <p class="lede">Three services that feed each other.</p>
+      </div>
+      <a class="btn" href="#/services">Explore Services</a>
+    </div>
+  </section>
+
+  <section class="dark" style="border-bottom:0" data-only="commander">
+    <div class="wrap">
+      <span class="mono k">Only 30 Commander spots</span>
+      <h2 class="display" style="margin-bottom:38px">Lock in<br>your link.</h2>
+      <a class="btn sig" href="#/apply">Become a Commander</a>
+    </div>
+  </section>
+</div>
+
+<div class="view" data-view="verify"><section style="border-bottom:0"><div class="narrow"><p class="mono">Checking your invitation…</p></div></section></div>
+
+<!-- ============ SERVICES ============ -->
+<div class="view" data-view="services">
+  <div class="page-head">
+    <div class="wrap">
+      <a class="back mono" href="#/" data-home>‹ Back</a>
+      <h1 class="display" style="font-size:clamp(3.2rem,11vw,8.5rem)">Explore<br><span class="hl">Services</span></h1>
+      <p class="lede" style="margin-top:30px">Consulting, Digital Campus and Marketplace feed each other.</p>
+    </div>
+  </div>
+  <section>
+    <div class="wrap">
+      <div class="pillars">
+        <div class="pillar">
+          <span class="mono">01</span>
+          <h3 class="display">Consulting</h3>
+          <ul>
+            <li>Consulting and Advisory Services</li>
+            <li>Process Optimization</li>
+            <li>Emerging Technology Training</li>
+            <li>Workforce Development</li>
+            <li>Technological and Digital Transformation</li>
+          </ul>
+          <button class="btn" data-open="consulting">Request consulting</button>
+        </div>
+        <div class="pillar">
+          <span class="mono">02</span>
+          <h3 class="display">Digital Campus</h3>
+          <p>Training that leads to careers inside the Ruptvate ecosystem.</p>
+          <a class="btn" href="#/services/campus">Open campus</a>
+        </div>
+        <div class="pillar">
+          <span class="mono">03</span>
+          <h3 class="display">Marketplace</h3>
+          <p>Where MSMEs and vendors plug into the network.</p>
+          <button class="btn" data-soon>Register as an MSME</button>
+        </div>
+      </div>
+      <div class="loop">
+        <span class="mono k" style="margin-top:56px">Apply &amp; join</span>
+        <div class="row">
+          <button class="btn sig" data-soon>Register as an MSME</button>
+          <button class="btn" data-soon>Apply as a Vendor</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ CAMPUS ============ -->
+<div class="view" data-view="campus">
+  <div class="page-head">
+    <div class="wrap">
+      <a class="back mono" href="#/services">‹ Services</a>
+      <h1 class="display" style="font-size:clamp(3.2rem,11vw,8.5rem)">Digital<br><span class="hl">Campus</span></h1>
+      <p class="lede" style="margin-top:30px">Training that leads to careers inside the Ruptvate ecosystem.</p>
+    </div>
+  </div>
+  <section style="border-bottom:0">
+    <div class="narrow">
+      <p class="mono" style="margin-bottom:30px">Training → Verified work → Rank → Careers</p>
+      <div class="row">
+        <button class="btn sig" data-open="consulting">Ask about training</button>
+        <a class="btn" href="#/services">All services</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ APPLY ============ -->
+<div class="view" data-view="apply">
+  <div class="page-head">
+    <div class="wrap">
+      <a class="back mono" href="#/" data-home>‹ Back</a>
+      <h1 class="display" style="font-size:clamp(3.2rem,11vw,8.5rem)">Apply as a<br><span class="hl" id="apRole">Commander</span></h1>
+      <p class="lede" id="apLede" style="margin-top:30px">Only 30 Commander spots available. Your referral link activates after approval.</p>
+    </div>
+  </div>
+
+  <div class="apply-grid">
+    <div class="wrap">
+      <form class="form f" id="applyForm" novalidate>
+        <div class="pic"><div class="av" id="pic" aria-hidden="true">?</div></div>
+        <div class="two">
+          <div><label class="mono" for="a_name">Full name</label><input id="a_name" name="fullName" autocomplete="name" required></div>
+          <div><label class="mono" for="a_email">Email</label><input id="a_email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div><label class="mono" for="a_phone">Phone number</label><input id="a_phone" name="phone" type="tel" autocomplete="tel" placeholder="+234 800 000 0000" required></div>
+        <div class="two">
+          <div><label class="mono" for="a_tg">Telegram handle</label><input id="a_tg" name="telegram" placeholder="@handle" required></div>
+          <div><label class="mono" for="a_x">X handle</label><input id="a_x" name="x" placeholder="@handle" pattern="@?[A-Za-z0-9_]{1,15}" title="Letters, numbers and underscores only (max 15)" autocomplete="off" required></div>
+        </div>
+        <div><label class="mono" for="a_li">LinkedIn link <span class="opt">Optional</span></label><input id="a_li" name="linkedin" type="url" placeholder="https://"></div>
+        <div class="two">
+          <div><label class="mono" for="a_country">Country</label><input id="a_country" name="country" autocomplete="country-name" required></div>
+          <div><label class="mono" for="a_state">State</label><input id="a_state" name="state" required></div>
+        </div>
+        <div><label class="mono" for="a_city">City</label><input id="a_city" name="city" required></div>
+        <div class="two">
+          <div>
+            <label class="mono" for="a_edu">Educational level</label>
+            <select id="a_edu" name="education" required>
+              <option value="">Select one</option><option>Student</option><option>Secondary school</option><option>OND / Diploma</option><option>HND</option><option>Bachelor's degree</option><option>Postgraduate diploma</option><option>Master's degree</option><option>Doctorate</option><option>Professional certification</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="mono" for="a_exp">Experience level</label>
+            <select id="a_exp" name="experience" required>
+              <option value="">Select one</option><option>No experience yet</option><option>Under 1 year</option><option>1 to 3 years</option><option>3 to 5 years</option><option>5 to 10 years</option><option>10+ years</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="mono" for="a_why" id="whyL">Why Commander</label><textarea id="a_why" name="why" required></textarea></div>
+        <div><label class="mono" for="a_cv">Upload CV <span class="opt">PDF or Word</span></label><input id="a_cv" name="cv" type="file" accept=".pdf,.doc,.docx" required></div>
+        <div class="err" id="applyErr" role="alert"></div>
+        <button class="btn sig" type="submit" id="applyBtn">Lock In 1 of 30 Commander Spots</button>
+        <p class="note">We only collect what this form asks for. See the <button type="button" class="link" data-open="privacy" style="text-decoration:underline">Privacy Policy</button>.</p>
+      </form>
+
+      <div class="done" id="applyDone">
+        <div class="pic"><div class="av" id="resultPic" aria-label="Your X profile picture"></div></div>
+        <span class="mono k">Application received</span>
+        <h2 class="display" id="doneTitle">Thanks for applying.</h2>
+        <p style="margin:22px 0 10px" id="doneMsg"></p>
+        <p class="note" style="margin:30px 0 16px">Follow Ruptvate on X and LinkedIn to stay updated.</p>
+        <div class="row">
+          <a class="btn" href="https://x.com/ruptvate" target="_blank" rel="noopener">Follow on X</a>
+          <a class="btn" href="https://www.linkedin.com/company/ruptvate" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        </div>
+        <p style="margin-top:34px"><a class="mono" href="#/" data-home>Back to home</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="display mega">RUPT<i>V</i>ATE</div>
+    <p class="mono tagline">…from existence to dominance</p>
+    <div class="socials mono">
+      <a href="https://x.com/ruptvate" target="_blank" rel="noopener">X</a>
+      <a href="https://t.me/ruptvate" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://www.linkedin.com/company/ruptvate" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://instagram.com/ruptvate" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="fine mono">
+      <span>© 2026 Ruptvate. All rights reserved.</span>
+      <button data-open="contact">Contact us</button>
+      <button data-open="terms">Terms of Service</button>
+      <button data-open="privacy">Privacy Policy</button>
+    </div>
+    <span class="soon mono">AI Support Agent · Coming soon</span>
+  </div>
+</footer>
+
+<!-- ============ DIALOGS ============ -->
+<dialog id="dlg-contact"><div class="dlg">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Contact us</h3>
+  <p class="lede">Questions, support, partnerships and investor enquiries.</p>
+  <form class="form f" data-form="contact" novalidate>
+    <div class="two">
+      <div><label class="mono">Your name</label><input name="name" required></div>
+      <div><label class="mono">Your email</label><input name="email" type="email" required></div>
+    </div>
+    <div><label class="mono">Enquiry type</label>
+      <select name="type"><option>General inquiry</option><option>Support</option><option>Partnership</option><option>Investor enquiry</option></select></div>
+    <div><label class="mono">Your message</label><textarea name="message" required></textarea></div>
+    <div class="err" role="alert"></div>
+    <button class="btn sig" type="submit">Send message</button>
+  </form>
+  <div class="ok"><h3 class="display">Thank you.</h3><p>We will reply to you by email.</p></div>
+</div></dialog>
+
+<dialog id="dlg-consulting"><div class="dlg">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Consulting</h3>
+  <p class="lede">Tell us what you need help with and we will reply by email.</p>
+  <form class="form f" data-form="consulting" novalidate>
+    <div class="two">
+      <div><label class="mono">Your name</label><input name="name" required></div>
+      <div><label class="mono">Your email</label><input name="email" type="email" required></div>
+    </div>
+    <div><label class="mono">Organisation</label><input name="organisation"></div>
+    <div><label class="mono">What do you need help with</label>
+      <select name="need"><option>Consulting and Advisory Services</option><option>Process Optimization</option><option>Emerging Technology Training</option><option>Workforce Development</option><option>Technological and Digital Transformation</option></select></div>
+    <div><label class="mono">Your message</label><textarea name="message" required></textarea></div>
+    <div class="err" role="alert"></div>
+    <button class="btn sig" type="submit">Send request</button>
+  </form>
+  <div class="ok"><h3 class="display">Thank you.</h3><p>We will reply to you by email.</p></div>
+</div></dialog>
+
+<dialog id="dlg-terms"><div class="dlg legal">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Terms of Service</h3>
+  <ul>
+    <li>The details you give must be accurate.</li>
+    <li>Points, ranks and rewards depend on verified task submissions and can change as the programme grows.</li>
+    <li>Ruptvate NFT badges are membership badges. They are not investments and no profit is promised.</li>
+    <li>We can remove anyone who submits false or copied data.</li>
+    <li>Ruptvate decides who is activated as a Commander.</li>
+    <li>Questions: <a href="mailto:support@ruptvate.com">support@ruptvate.com</a></li>
+  </ul>
+</div></dialog>
+
+<dialog id="dlg-privacy"><div class="dlg legal">
+  <button class="x" data-close aria-label="Close">×</button>
+  <h3 class="display">Privacy Policy</h3>
+  <ul>
+    <li>We collect what the forms ask for: name, email, wallet address for the whitelist, Telegram, X and LinkedIn details, education and experience, your reason for applying, and your CV.</li>
+    <li>We use it to review applications, run the programme and contact you.</li>
+    <li>If you become a Commander, your X handle and picture show on your referral page. We do not publish your CV.</li>
+    <li>To ask for your data to be deleted, email <a href="mailto:support@ruptvate.com">support@ruptvate.com</a>.</li>
+  </ul>
+</div></dialog>
+
+<div id="toast" role="status"></div>
+
+<script>
+/* ---------- CONFIG ----------
+   Same backend as the live site (Supabase functions + Cloudflare Turnstile). Empty API_BASE = demo mode (nothing is sent). */
+const API_BASE="https://aglcrolfhkyslpshuzej.supabase.co/functions/v1", TURNSTILE_SITEKEY="0x4AAAAAAFm-GR0_eehdrHUU";
+const COMMANDER_ENDPOINT=API_BASE&&API_BASE+"/commander", AVATAR_BASE="https://unavatar.io/x/";
+const SQUAD_LIMIT=50;           /* one Commander link takes max 50 Scouters */
+const PATHS={commander:'apply',contact:'contact',consulting:'consult',whitelist:'whitelist'};
+
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+let tt; function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),m.length>40?3800:1800);}
+const cleanHandle=h=>String(h||'').replace(/^@/,'').replace(/[^A-Za-z0-9_]/g,'').slice(0,15).toLowerCase();
+function setPic(el,h){
+  if(!el) return; const d=cleanHandle(h); el.dataset.h=d;
+  if(!d){ el.textContent='?'; return; }
+  el.textContent=d[0].toUpperCase();
+  const im=new Image(); im.alt='@'+d; im.referrerPolicy='no-referrer';
+  im.onload=()=>{ if(el.dataset.h===d){ el.textContent=''; el.appendChild(im); } };
+  im.src=AVATAR_BASE+encodeURIComponent(d);
+}
+
+/* ---------- slots ---------- */
+const TOTAL=30, SLOTS_ENDPOINT=API_BASE&&API_BASE+'/slots'; let taken=0;
+$('#slots').innerHTML=Array.from({length:TOTAL},(_,i)=>`<li>${String(i+1).padStart(2,'0')}</li>`).join('');
+/* Each Commander application fills one box (orange) and counts the big number down. */
+function paintSlots(n,animate){
+  const prev=taken; taken=Math.max(0,Math.min(TOTAL,Number(n)||0)); const left=TOTAL-taken;
+  $$('#slots li').forEach((li,i)=>{
+    const on=i<taken; li.classList.toggle('taken',on); li.classList.toggle('hot',on&&i>=TOTAL-5);
+    li.textContent=(left===0&&i===TOTAL-1)?'Done':String(i+1).padStart(2,'0');
+    if(animate&&on&&i>=prev){li.classList.add('just');setTimeout(()=>li.classList.remove('just'),900);}
+  });
+  $('#slotsLeft').classList.toggle('low',left<=5);
+  $('#slotsLeft').textContent=left;
+  $('#slotsNote').textContent=left?`Only ${left} spot${left===1?'':'s'} left · Apply early to lock in your link`:'All 30 Commander spots are taken';
+  $('#slots').setAttribute('aria-label',`${left} of ${TOTAL} Commander slots left`);
+}
+function refreshSlots(n,animate){paintSlots(n,animate);route(true);}
+function loadSlots(){ if(!SLOTS_ENDPOINT) return; fetch(SLOTS_ENDPOINT).then(r=>r.ok?r.json():null).then(j=>{ if(j&&j.taken!=null&&Number(j.taken)!==taken) refreshSlots(j.taken,true); }).catch(()=>{}); }
+
+/* ---------- Turnstile ---------- */
+let tsLoad;
+function loadTS(){return tsLoad||(tsLoad=new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';s.onload=res;s.onerror=()=>{tsLoad=null;rej(new Error('Human verification did not load. Please try again.'));};document.head.appendChild(s);}));}
+async function captcha(){
+  if(!TURNSTILE_SITEKEY) return '';
+  await loadTS();
+  return new Promise((res,rej)=>{
+    const box=document.createElement('div'); box.className='ts-box'; document.body.appendChild(box);
+    const end=(f,v)=>{box.remove();f(v);};
+    turnstile.ready(()=>turnstile.render(box,{sitekey:TURNSTILE_SITEKEY,appearance:'interaction-only',callback:t=>end(res,t),'error-callback':()=>end(rej,new Error('Human verification failed. Please try again.')),'timeout-callback':()=>end(rej,new Error('Human verification timed out. Please try again.'))}));
+  });
+}
+async function send(key,data){
+  if(!API_BASE){ await delay(500); return {demo:true}; }
+  const token=await captcha(); let res;
+  if(data instanceof FormData){ data.append('token',token); res=await fetch(API_BASE+'/'+PATHS[key],{method:'POST',body:data}); }
+  else { data.token=token; res=await fetch(API_BASE+'/'+PATHS[key],{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }
+  if(!res.ok){ let j={}; try{j=await res.json();}catch{} throw new Error(j.message||'Could not send. Please email support@ruptvate.com'); }
+  try{ return await res.json(); }catch{ return {}; }
+}
+
+/* ---------- Commander invitation (Scouter access) ----------
+   The Scouter side exists ONLY behind a valid Commander referral link (#/join/CODE or /ref/CODE).
+   RES[code]: undefined = not asked, null = checking, false = invalid / not activated, {handle,full} = valid. */
+const RES={};
+function resolveInv(c){
+  if(RES[c]!==undefined) return RES[c];
+  if(!COMMANDER_ENDPOINT){ RES[c]={handle:c,full:false}; return RES[c]; }
+  RES[c]=null;
+  fetch(COMMANDER_ENDPOINT+'?code='+encodeURIComponent(c)).then(r=>r.ok?r.json():null).then(j=>{
+    if(j&&j.handle&&j.active!==false){
+      const full=j.full===true||(j.count!=null&&Number(j.count)>=Number(j.limit||SQUAD_LIMIT));
+      RES[c]={handle:String(j.handle),full};
+    } else RES[c]=false;
+    route(true);
+  }).catch(()=>{ RES[c]=undefined; toast('Could not verify this invitation link. Please try again.'); location.replace('#/'); });
+  return null;
+}
+(function(){
+  const m=location.pathname.match(/^\/ref\/([A-Za-z0-9_]{1,15})\/?$/), q=new URLSearchParams(location.search).get('ref');
+  const code=m?m[1]:(q&&/^\w{1,15}$/.test(q)?q:'');
+  if(code&&!location.hash) location.hash='#/join/'+code;
+})();
+
+/* ---------- router ---------- */
+const views={'/':'home','/services':'services','/services/campus':'campus','/apply':'apply'};
+let roleTab='commander';
+function setPanels(){ const pm=cur.sc?'scouter':roleTab; $$('.panel').forEach(p=>p.classList.toggle('on',p.dataset.panel===pm)); $$('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===roleTab))); }
+const NOINV={sc:false,code:'',handle:'',full:false};
+let cur={...NOINV}, lastHash=null;
+const applyLabel=()=>cur.sc?'Submit application':'Lock In 1 of 30 Commander Spots';
+function route(soft){
+  let path=location.hash.replace(/^#/,'')||'/', name;
+  const jm=path.match(/^\/join\/(\w{1,15})(\/apply)?\/?$/);
+  if(jm){
+    const code=jm[1], r=resolveInv(code);
+    if(r===null) name='verify';
+    else if(r===false){ cur={...NOINV}; toast('This invitation link is not valid'); location.replace('#/'); return; }
+    else {
+      cur={sc:true,code,handle:r.handle,full:r.full};
+      if(jm[2]&&r.full){ toast('This squad is full'); location.replace('#/join/'+code); return; }
+      name=jm[2]?'apply':'home';
+    }
+  } else {
+    const known=path in views; if(!known) path='/';
+    if(known&&(path==='/'||path==='/apply')) cur={...NOINV};
+    name=views[path];
+    if(name==='apply'&&taken>=TOTAL&&!$('#applyDone').classList.contains('show')){ toast('All 30 Commander spots are taken'); location.replace('#/'); return; }
+  }
+  const mode=cur.sc?'scouter':'commander', base=cur.sc?'#/join/'+cur.code:'#/';
+  document.body.dataset.mode=name==='verify'?'verify':mode;
+  $$('.view').forEach(v=>v.classList.toggle('on',v.dataset.view===name));
+  $$('[data-nav]').forEach(a=>{ if(a.dataset.nav===path) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  $$('[data-home]').forEach(a=>a.setAttribute('href',base));
+  $$('[data-sapply]').forEach(a=>a.setAttribute('href',base+'/apply'));
+  setPanels();
+  const handle=cur.handle?'@'+cur.handle:'your Commander';
+  $('#inviteName').textContent=handle; setPic($('#invAv'),cur.handle);
+  $('#fullNote').textContent=cur.sc&&cur.full?'This squad is full. Ask your Commander for another invitation.':'';
+  const cta=$('#heroCta');
+  cta.textContent=cur.sc?'Become a Scouter':'Become a Commander'; cta.setAttribute('href',cur.sc?base+'/apply':'#/apply'); cta.toggleAttribute('disabled',cur.sc?cur.full:taken>=TOTAL);
+  const onApply=name==='apply', na=$('#navApply');
+  na.textContent=onApply?'Back to home':(cur.sc?'Apply as a Scouter':'Apply as Commander');
+  na.setAttribute('href',onApply?base:(cur.sc?base+'/apply':'#/apply')); na.toggleAttribute('disabled',!onApply&&(cur.sc?cur.full:taken>=TOTAL));
+  $('#apRole').textContent=cur.sc?'Scouter':'Commander';
+  $('#apLede').textContent=cur.sc?'You’ve been invited to join '+handle+'’s Squad.':'Only 30 Commander spots available. Your referral link activates after approval.';
+  $('#whyL').textContent=cur.sc?'Why Scouter':'Why Commander';
+  $('#applyBtn').textContent=applyLabel();
+  if(onApply&&lastHash!==location.hash){ $('#applyForm').hidden=false; $('#applyDone').classList.remove('show'); $('#applyErr').textContent=''; }
+  lastHash=location.hash;
+  fitBadge();
+  $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false');
+  if(!soft&&!['roles','ranks','how','badge'].includes(location.hash.replace('#',''))) window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',()=>route());
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href^="#"]'); if(!a) return;
+  const h=a.getAttribute('href');
+  if(['#roles','#ranks','#how','#badge'].includes(h)){
+    e.preventDefault();
+    const go=()=>document.getElementById(h.slice(1))?.scrollIntoView({behavior:'smooth'});
+    if(!$('[data-view="home"]').classList.contains('on')){ location.hash=cur.sc?'#/join/'+cur.code:'#/'; setTimeout(go,30); } else go();
+  }
+});
+$('#menuBtn').addEventListener('click',()=>{const o=$('#nav').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',String(o));});
+
+/* ---------- whitelist: one application per browser ---------- */
+const WL_KEY='ruptvate_whitelist_applied';
+const wlDone=()=>{try{return localStorage.getItem(WL_KEY)==='yes';}catch{return false;}};
+const syncWl=()=>$$('[data-open="whitelist"]').forEach(b=>b.classList.toggle('gone',wlDone()));
+
+/* ---------- dialogs ---------- */
+function openDlg(id){
+  $$('dialog[open]').forEach(d=>d.close());
+  const d=$('#dlg-'+id); if(!d) return;
+  const f=$('form',d), ok=$('.ok',d);
+  if(f){ f.hidden=false; f.reset(); $('.err',f).textContent=''; }
+  if(ok) ok.classList.remove('show');
+  d.showModal();
+}
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-soon]')){ e.preventDefault(); toast('Coming soon'); return; }
+  const tb=e.target.closest('[data-tab]'); if(tb){ roleTab=tb.dataset.tab; setPanels(); return; }
+  const o=e.target.closest('[data-open]');
+  if(o){ e.preventDefault(); if(o.dataset.open==='whitelist'){ $$('dialog[open]').forEach(d=>d.close()); openWhitelist(); } else openDlg(o.dataset.open); return; }
+  if(e.target.closest('[data-unflip]')){ flipBadge(false); return; }
+  const fc=e.target.closest('.fc'); if(fc){ toggleFc(fc); return; }
+  if(e.target.closest('[data-close]')){ e.target.closest('dialog').close(); return; }
+  if(e.target.tagName==='DIALOG') e.target.close();
+});
+
+/* ---------- forms ---------- */
+function check(form){
+  for(const el of $$('[required]',form)){
+    if(!el.value.trim()||(el.type==='file'&&!el.files.length)){ el.focus(); return 'Please complete every required field.'; }
+    if(el.type==='email'&&!/^\S+@\S+\.\S+$/.test(el.value)){ el.focus(); return 'Enter a valid email address.'; }
+    if(el.pattern&&!new RegExp('^(?:'+el.pattern+')$').test(el.value.trim())){ el.focus(); return el.title||'Check the format of this field.'; }
+  }
+  return '';
+}
+const PAYLOAD={
+  contact:o=>({type:'contact message',name:o.name,email:o.email,topic:o.type,message:o.message}),
+  consulting:o=>({type:'consulting request',name:o.name,email:o.email,organisation:o.organisation,need:o.need,message:o.message}),
+  whitelist:o=>({wallet:o.wallet.trim(),email:o.email.trim()})
+};
+$$('form[data-form]').forEach(form=>{
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const err=$('.err',form), btn=$('button[type=submit]',form), key=form.dataset.form;
+    const msg=check(form); if(msg){ err.textContent=msg; return; }
+    err.textContent=''; btn.disabled=true;
+    try{
+      await send(key,PAYLOAD[key](Object.fromEntries(new FormData(form))));
+      if(key==='whitelist'){ try{localStorage.setItem(WL_KEY,'yes');}catch{} syncWl(); }
+      form.hidden=true; $('.ok',form.closest('dialog,.face')).classList.add('show'); fitBadge();
+    }catch(x){ err.textContent=x.message||'Something went wrong. Try again.'; }
+    btn.disabled=false;
+  });
+});
+
+/* ---------- application (Commander or invited Scouter) ---------- */
+const af=$('#applyForm');
+af.elements.x.addEventListener('input',function(){setPic($('#pic'),this.value);});
+$('#qs').addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=cleanHandle(e.target.elements.qx.value);
+  if(!v){ toast('Enter a valid X handle'); return; }
+  af.elements.x.value=v; setPic($('#pic'),v);
+  location.hash='#/join/'+cur.code+'/apply';
+});
+af.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const err=$('#applyErr'), btn=$('#applyBtn');
+  if(cur.sc&&cur.full){ err.textContent='This squad is full.'; return; }
+  if(!cur.sc&&taken>=TOTAL){ err.textContent='All 30 Commander spots are taken.'; return; }
+  const msg=check(af); if(msg){ err.textContent=msg; return; }
+  err.textContent=''; btn.disabled=true; btn.textContent='Submitting…';
+  try{
+    const fd=new FormData(af), hd=cleanHandle(af.elements.x.value), first=fd.get('fullName').toString().trim().split(' ')[0];
+    fd.append('role',cur.sc?'scouter':'commander'); fd.append('ref',cur.sc?cur.code:''); fd.append('x_handle',hd);
+    const out=await send('commander',fd);
+    if(!cur.sc) refreshSlots(out&&out.taken!=null?out.taken:taken+1,true);
+    $('#doneTitle').textContent=cur.sc?'Application received.':'Thanks for applying, '+first+'.';
+    $('#doneMsg').textContent=cur.sc
+      ? 'Thanks for applying. Your request to join '+(cur.handle?'@'+cur.handle:'your Commander')+'’s Squad is pending review. You will receive an email shortly when it is approved or rejected.'
+      : 'Your Commander application has been received. Your request is pending review. You will receive an email shortly when it is approved or rejected. Once approved, your unique referral link activates and unlocks '+SQUAD_LIMIT+' Scouter referrals.';
+    setPic($('#resultPic'),hd);
+    af.hidden=true; $('#applyDone').classList.add('show'); window.scrollTo(0,0);
+  }catch(x){ err.textContent=x.message||'Could not save your application. Please try again.'; }
+  btn.disabled=false; btn.textContent=applyLabel();
+});
+
+/* flip cards */
+function toggleFc(c){const on=c.classList.toggle('flipped');c.setAttribute('aria-pressed',String(on));}
+document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('fc')){ e.preventDefault(); toggleFc(e.target); } });
+/* badge card flips to the whitelist application */
+const bf=$('#badgeFlip');
+function fitBadge(){ bf.style.height=''; } /* back face is overlaid on the front, so it always has the exact same size */
+addEventListener('resize',fitBadge); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitBadge);
+function flipBadge(on){
+  bf.classList.toggle('flipped',on);
+  $('.back',bf).setAttribute('aria-hidden',String(!on)); $('.front',bf).setAttribute('aria-hidden',String(on));
+  if(on){ const f=$('form',bf), ok=$('.ok',bf);
+    if(wlDone()){ f.hidden=true; ok.classList.add('show'); }
+    else { f.hidden=false; f.reset(); $('.err',f).textContent=''; ok.classList.remove('show'); } }
+  fitBadge();
+}
+function openWhitelist(){
+  $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false');
+  const go=()=>{ $('#badge').scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>flipBadge(true),450); };
+  if(!$('[data-view="home"]').classList.contains('on')){ location.hash=cur.sc?'#/join/'+cur.code:'#/'; setTimeout(go,80); } else go();
+}
+paintSlots(0); syncWl(); route(); loadSlots(); setInterval(loadSlots,60000);
+</script>
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+/* ---------- animated backgrounds: dithered field + pixel-art scenes ---------- */
+(function(){
+  const VS='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const FS=`precision highp float;
+uniform vec2 u_res;uniform float u_t;uniform vec2 u_m;
+float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.03+vec2(11.7,7.3);a*=.5;}return v;}
+float b2(vec2 a){a=floor(a);return fract(a.x/2.+a.y*a.y*.75);}
+float b4(vec2 a){return b2(.5*a)*.25+b2(a);}
+float b8(vec2 a){return b4(.5*a)*.25+b2(a);}
+void main(){
+  vec2 fc=gl_FragCoord.xy;
+  vec2 uv=(fc-.5*u_res)/u_res.y;
+  float t=u_t*.05;
+  vec2 q=uv*1.4;
+  q+=.45*vec2(fbm(q*1.3+vec2(t,0.)),fbm(q*1.3+vec2(0.,-t)+4.2));
+  float f=fbm(q*1.1+vec2(t*1.5,0.));
+  float v=.5+.5*sin((q.x*1.2+q.y*.7+f*3.4)*3.);
+  float d=length(uv-u_m);
+  v+=.22*sin(d*22.-u_t*2.2)*exp(-d*4.);
+  v*=mix(.22,1.,smoothstep(.05,.8,length(uv*vec2(.7,1.05))));
+  v*=smoothstep(-.7,-.3,uv.y);
+  float idx=clamp(floor(clamp(v,0.,1.)*3.+b8(fc)),0.,3.);
+  vec3 c=vec3(.886,.886,.886);
+  if(idx>.5) c=vec3(.690,.735,.835);
+  if(idx>1.5) c=vec3(.330,.490,.740);
+  if(idx>2.5) c=vec3(.070,.314,.631);
+  gl_FragColor=vec4(c,1.);
+}`;
+  const cellPx=()=>innerWidth<700?3:4;
+  const frac=x=>x-Math.floor(x);
+  const ease=q=>q*q*(3-2*q);
+
+  function init(host){
+    const gv=$('.bg-gl',host), sc=$('.bg-sc',host), ctx=sc.getContext('2d');
+    const kind=host.dataset.scene, banner=host.dataset.banner==='1';
+    const gl=gv.getContext('webgl',{antialias:false,alpha:false,powerPreference:'low-power'});
+    let pr=null,uRes,uT,uM;
+    if(gl){
+      const mk=(t,src)=>{const x=gl.createShader(t);gl.shaderSource(x,src);gl.compileShader(x);return x;};
+      const p=gl.createProgram(); gl.attachShader(p,mk(gl.VERTEX_SHADER,VS)); gl.attachShader(p,mk(gl.FRAGMENT_SHADER,FS)); gl.linkProgram(p);
+      if(gl.getProgramParameter(p,gl.LINK_STATUS)){
+        pr=p; gl.useProgram(p);
+        const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+        gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+        const loc=gl.getAttribLocation(p,'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+        uRes=gl.getUniformLocation(p,'u_res'); uT=gl.getUniformLocation(p,'u_t'); uM=gl.getUniformLocation(p,'u_m');
+      }
+    }
+    if(!pr) gv.style.display='none';
+
+    let W=0,H=0,squads=[],m=[9,9],target=[9,9],visible=true,last=0;
+
+    /* ---- pixel helpers (one canvas pixel = one dither cell) ---- */
+    const px=(x,y,c)=>{ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),1,1);};
+    function disc(cx,cy,r,fill,edge){
+      const R=Math.ceil(r)+1, X=Math.round(cx), Y=Math.round(cy);
+      for(let y=-R;y<=R;y++)for(let x=-R;x<=R;x++){
+        const d=Math.hypot(x,y); if(d<=r){ ctx.fillStyle=(edge&&d>r-1.15)?edge:fill; ctx.fillRect(X+x,Y+y,1,1); }
+      }
+    }
+    function ring(cx,cy,r,c,step){
+      const n=Math.max(16,Math.round(r*6)); ctx.fillStyle=c;
+      for(let i=0;i<n;i+=step){const a=i/n*6.2832; ctx.fillRect(Math.round(cx+Math.cos(a)*r),Math.round(cy+Math.sin(a)*r),1,1);}
+    }
+    function line(x0,y0,x1,y1,c,every){
+      const dx=x1-x0,dy=y1-y0,n=Math.ceil(Math.max(Math.abs(dx),Math.abs(dy))); ctx.fillStyle=c;
+      for(let i=0;i<=n;i+=every) ctx.fillRect(Math.round(x0+dx*i/n),Math.round(y0+dy*i/n),1,1);
+    }
+    function pulse(x,y,a,c){ ctx.fillStyle=c; ctx.globalAlpha=a; ctx.fillRect(Math.round(x)-1,Math.round(y)-1,2,2); ctx.globalAlpha=1; }
+
+    /* ---- layout: where the squads sit around the centred text ---- */
+    function build(){
+      const land=W/H>1.15;
+      const R=land?Math.min(.12*W,.34*H):Math.min(.26*W,W>150?26:18);
+      const spots=land?(banner?[[.12,.55,1],[.88,.5,1]]:[[.13,.5,1],[.87,.44,1],[.78,.84,.5]]):[[.5,null,1]];
+      squads=[]; if(true) return;
+      squads=spots.map((q,si)=>{
+        const r=R*q[2];
+        return {si,r,cx:q[0]*W,cy:q[1]==null?H-r-10:q[1]*H,n:kind==='loop'?3:(q[2]<1?4:6)};
+      });
+    }
+
+    const STY={squad:{cr:7,sr:3},commander:{cr:10,sr:2},scouter:{cr:5,sr:4}};
+    function drawSquads(t){
+      const st=STY[kind]||STY.squad;
+      squads.forEach(sq=>{
+        const cr=Math.min(st.cr*(sq.r<R_BIG(sq)?.75:1),sq.r*.42), sr=st.sr*(sq.r<R_BIG(sq)?.8:1);
+        const dir=sq.si%2?1:-1;
+        const nodes=[...Array(sq.n)].map((_,i)=>{
+          const a=sq.si*.9+i*6.2832/sq.n+t*.03*dir, rr=sq.r*(.8+.28*frac(i*.618+sq.si*.31));
+          return {x:Math.min(W-6,Math.max(6,sq.cx+Math.cos(a)*rr)),y:Math.min(H-6,Math.max(6,sq.cy+Math.sin(a)*rr*.92)),i};
+        });
+        ring(sq.cx,sq.cy,sq.r,'rgba(18,80,161,.22)',2);
+        nodes.forEach(n=>line(n.x,n.y,sq.cx,sq.cy,'rgba(18,80,161,.4)',3));
+        let flash=0;
+        nodes.forEach(n=>{
+          const P=2.6+frac(n.i*.41)*2.2+sq.si*.3, off=n.i*.77+sq.si*1.3, p=frac((t+off)/P);
+          const q=p/.5;
+          if(q<1){
+            for(let j=2;j>=0;j--){
+              const e=ease(Math.max(0,q-j*.045));
+              pulse(n.x+(sq.cx-n.x)*e,n.y+(sq.cy-n.y)*e,j===0?1:j===1?.55:.28,'#ff9900');
+            }
+          }
+          if(p>.5&&p<.72) flash=Math.max(flash,1-(p-.5)/.22);
+          if(kind==='scouter'&&p<.14) ring(n.x,n.y,sr+(p/.14)*7,`rgba(255,153,0,${1-p/.14})`,1);
+        });
+        nodes.forEach(n=>disc(n.x,n.y,sr,'#050149','#e2e2e2'));
+        if(flash>0) ring(sq.cx,sq.cy,cr+2+(1-flash)*(kind==='commander'?10:6),`rgba(255,153,0,${flash})`,1);
+        disc(sq.cx,sq.cy,cr,'#1250a1','#fff');
+        const g=cr>=7?3:2; ctx.fillStyle='#ff9900'; ctx.fillRect(Math.round(sq.cx)-1,Math.round(sq.cy)-1,g,g);
+      });
+    }
+    const R_BIG=sq=>squads[0].r;
+
+    const LOOP_FILL=[['#1250a1','#fff'],['#050149','#e2e2e2'],['#ff9900','#fff']];
+    function drawLoop(t){
+      squads.forEach(sq=>{
+        const nodes=[0,1,2].map(i=>{const a=-1.5708+i*2.0944+sq.si*.5+t*.05;return {x:Math.min(W-7,Math.max(7,sq.cx+Math.cos(a)*sq.r)),y:Math.min(H-7,Math.max(7,sq.cy+Math.sin(a)*sq.r*.92))};});
+        ring(sq.cx,sq.cy,sq.r,'rgba(18,80,161,.18)',2);
+        for(let e=0;e<3;e++){
+          const a=nodes[e],b=nodes[(e+1)%3];
+          line(a.x,a.y,b.x,b.y,'rgba(18,80,161,.4)',3);
+          for(let k=0;k<2;k++){
+            const s0=frac(t*.2+k*.5+e*.17);
+            for(let j=2;j>=0;j--){const f=ease(Math.max(0,s0-j*.04)); pulse(a.x+(b.x-a.x)*f,a.y+(b.y-a.y)*f,j===0?1:j===1?.55:.28,'#fff');}
+          }
+        }
+        nodes.forEach((n,i)=>disc(n.x,n.y,Math.min(6,sq.r*.2),LOOP_FILL[i][0],LOOP_FILL[i][1]));
+      });
+    }
+
+    /* ---- frame ---- */
+    function draw(t){
+      if(pr){ gl.uniform2f(uRes,gv.width,gv.height); gl.uniform1f(uT,t); gl.uniform2f(uM,m[0],m[1]); gl.drawArrays(gl.TRIANGLES,0,3); }
+      ctx.clearRect(0,0,W,H);
+      if(kind==='loop') drawLoop(t); else drawSquads(t);
+    }
+    function size(){
+      const w=host.clientWidth,h=host.clientHeight; if(!w||!h) return;
+      const c=cellPx(); W=Math.ceil(w/c); H=Math.ceil(h/c);
+      gv.width=sc.width=W; gv.height=sc.height=H;
+      if(pr) gl.viewport(0,0,W,H);
+      build();
+      if(reduced) draw(6);
+    }
+    function frame(now){
+      requestAnimationFrame(frame);
+      if(!visible||document.hidden||now-last<33||!W) return;
+      last=now; m[0]+=(target[0]-m[0])*.08; m[1]+=(target[1]-m[1])*.08;
+      draw(now/1000);
+    }
+    new ResizeObserver(size).observe(host);
+    new IntersectionObserver(es=>{ visible=es[0].isIntersecting; if(visible) size(); }).observe(host);
+    if(!reduced){
+      const zone=host.parentElement;
+      zone.addEventListener('pointermove',e=>{
+        if(e.pointerType==='touch') return;
+        const r=host.getBoundingClientRect();
+        target=[((e.clientX-r.left)/r.width-.5)*(r.width/r.height),.5-(e.clientY-r.top)/r.height];
+      });
+      zone.addEventListener('pointerleave',()=>{target=[9,9];});
+      requestAnimationFrame(frame);
+    }
+    size();
+  }
+
+  /* start each background the first time it is on screen */
+  const boot=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ boot.unobserve(en.target); init(en.target); } }));
+  $$('.bg').forEach(h=>boot.observe(h));
+})();
+</script>
+
+<script>
+document.documentElement.classList.add('js');
+(function(){const els=document.querySelectorAll('.rv');if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return;}
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:.12});
+els.forEach(e=>io.observe(e));})();
+</script>
+</body>
+</html>
