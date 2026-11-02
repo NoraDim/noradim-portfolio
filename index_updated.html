@@ -19,6 +19,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
 body{background:var(--bone);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;text-align:center;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
@@ -353,11 +354,11 @@ section.dark .seg button[aria-pressed="true"]{background:var(--signal);color:var
 #badge .back .ok p{font-size:.95em}
 
 /* --- slots: blue while filling, orange for the last 5, "Done" on the final card --- */
-.slots li.taken{background:var(--blue);color:#fff}
-.slots li.wait{background:var(--blue);color:transparent;animation:slotwait 1.8s ease-in-out infinite}
+.slots li.taken{background:var(--ink);color:var(--bone)}
+.slots li.wait{background:var(--ink);color:var(--bone);box-shadow:inset 0 0 0 4px var(--bone),inset 0 0 0 6px var(--ink);animation:slotwait 1.8s ease-in-out infinite}
 @keyframes slotwait{50%{opacity:.55}}
 @media (prefers-reduced-motion:reduce){.slots li.wait{animation:none}}
-.slots li.taken.hot{background:var(--signal);color:var(--ink)}
+.slots li.taken.hot{background:var(--signal);color:var(--ink);box-shadow:none}
 .slots li:last-child.taken.hot{font-weight:700}
 .big-n.low{color:var(--signal)}
 /* --- role columns: each card is only as tall as its own content --- */
@@ -392,6 +393,50 @@ section.dark .seg button[aria-pressed="true"]{background:var(--signal);color:var
 /* --- network: no frame, full width of the section --- */
 .net{max-width:none;width:100vw;margin:clamp(24px,4vw,48px) 0 0 calc(50% - 50vw);border:0;background:none;overflow:visible}
 #netCv{display:block;width:100%;height:clamp(460px,82vh,820px);aspect-ratio:auto}
+
+/* --- polish: error slot never shifts the layout --- */
+.f .err{min-height:2.6em;display:flex;align-items:center;justify-content:center;line-height:1.3;transition:opacity .2s ease}
+.f .err:empty{opacity:0}
+#badge .back .err{min-height:2.4em}
+
+/* --- polish: inline validation --- */
+.f input,.f select,.f textarea{transition:border-color .15s ease,box-shadow .15s ease}
+.f .is-valid{border-color:#1a8a4a}
+.f .is-invalid{border-color:#B00;box-shadow:inset 0 0 0 1px #B00}
+.f input.is-valid:not([type=file]){padding-right:44px;background-repeat:no-repeat;background-position:right 14px center;background-size:16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%231a8a4a' stroke-width='2.4' stroke-linecap='square'%3E%3Cpath d='M2 8.5l4 4 8-9'/%3E%3C/svg%3E")}
+#badge .back .f input.is-valid:not([type=file]){padding-right:2.6em}
+
+/* --- polish: tactile signal buttons --- */
+.btn.sig{transition:transform .28s cubic-bezier(.34,1.7,.5,1),box-shadow .16s ease,background-color .16s ease}
+.btn.sig:hover{background:#ffab26;transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.btn.sig:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink);transition-duration:.06s}
+@media (prefers-reduced-motion:reduce){.btn.sig,.btn.sig:hover,.btn.sig:active{transition:none}}
+
+/* --- polish: menu + small screens --- */
+nav.links.open{animation:navin .18s ease-out}
+@keyframes navin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){nav.links.open{animation:none}}
+@media (max-width:480px){
+  body{font-size:16px}
+  .btn{padding:14px 18px;font-size:.74rem;letter-spacing:.1em;max-width:100%}
+  .row{gap:14px}
+  .row .btn,.form .btn{width:100%;justify-self:stretch;text-align:center}
+  .page-head{padding-top:44px}
+  .back{margin-bottom:24px}
+  .apply-grid{padding:32px 0 56px}
+  .dlg{padding:56px 16px 22px}
+  dialog{width:calc(100% - 16px)}
+  .qs{flex-direction:column}
+  .qs .btn{border-left:0;border-top:var(--line);width:100%}
+  .seg button{padding:12px 14px}
+  .done{padding:28px 16px}
+  .reflink input{font-size:.7rem}
+  #badge .narrow{width:calc(100% - 24px)}
+  #badge .badge-flip>.back{padding:1em 1.1em}
+  .fine{gap:8px 16px}
+  .socials a{padding:10px 14px}
+}
+.tagline{text-transform:none;font-style:italic;font-size:.95rem;letter-spacing:.04em}
 </style>
 </head>
 <body data-mode="commander">
@@ -1023,6 +1068,10 @@ document.addEventListener('click',e=>{
     if(!$('[data-view="home"]').classList.contains('on')){ location.hash=cur.sc?'#/join/'+cur.code:'#/'; setTimeout(go,30); } else go();
   }
 });
+const closeNav=()=>{ $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false'); };
+$('#nav').addEventListener('click',e=>{ if(e.target.closest('a,button')) closeNav(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeNav(); });
+document.addEventListener('click',e=>{ if(!e.target.closest('header.top')) closeNav(); });
 $('#menuBtn').addEventListener('click',()=>{const o=$('#nav').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',String(o));});
 
 /* ---------- whitelist: one application per browser ---------- */
@@ -1051,11 +1100,22 @@ document.addEventListener('click',e=>{
 });
 
 /* ---------- forms ---------- */
+function mark(el,force){
+  if(!el||el.type==='hidden'||el.type==='submit') return;
+  const v=el.type==='file'?el.files.length>0:el.value.trim();
+  if(!v){ el.classList.remove('is-valid'); el.classList.toggle('is-invalid',!!force&&el.required); return; }
+  const ok=el.type==='file'?true:el.checkValidity();
+  el.classList.toggle('is-valid',ok); el.classList.toggle('is-invalid',!ok);
+}
+document.addEventListener('input',e=>{ const t=e.target; if(t.closest&&t.closest('.f')&&t.matches('input,select,textarea')) mark(t); });
+document.addEventListener('change',e=>{ const t=e.target; if(t.closest&&t.closest('.f')&&t.matches('input,select,textarea')) mark(t); });
+document.addEventListener('focusout',e=>{ const t=e.target; if(t.closest&&t.closest('.f')&&t.matches('input,select,textarea')) mark(t,true); });
+document.addEventListener('reset',e=>{ setTimeout(()=>$$('.is-valid,.is-invalid',e.target).forEach(x=>x.classList.remove('is-valid','is-invalid')),0); });
 function check(form){
   for(const el of $$('[required]',form)){
-    if(!el.value.trim()||(el.type==='file'&&!el.files.length)){ el.focus(); return 'Please complete every required field.'; }
-    if(el.type==='email'&&!/^\S+@\S+\.\S+$/.test(el.value)){ el.focus(); return 'Enter a valid email address.'; }
-    if(el.pattern&&!new RegExp('^(?:'+el.pattern+')$').test(el.value.trim())){ el.focus(); return el.title||'Check the format of this field.'; }
+    if(!el.value.trim()||(el.type==='file'&&!el.files.length)){ mark(el,true); el.focus(); return 'Please complete every required field.'; }
+    if(el.type==='email'&&!/^\S+@\S+\.\S+$/.test(el.value)){ mark(el,true); el.focus(); return 'Enter a valid email address.'; }
+    if(el.pattern&&!new RegExp('^(?:'+el.pattern+')$').test(el.value.trim())){ mark(el,true); el.focus(); return el.title||'Check the format of this field.'; }
   }
   return '';
 }
@@ -1146,7 +1206,7 @@ af.addEventListener('submit',async e=>{
   const rot=(x,y,z,o)=>{ const x1=x*ca+z*sa, z1=-x*sa+z*ca; o[0]=x1; o[1]=y*cp-z1*sp; o[2]=y*sp+z1*cp; };
   const pv=(x,y,z)=>{ gk=CAM/(CAM-z); gx=CX+x*gk; gy=CY+y*gk; };
   let vis=true,last=performance.now(),ang=0,spin=0,acc=0,idle=0,swap=0; const BP=[],OP=[],RG=[],ACT=[];
-  if('IntersectionObserver' in window) new IntersectionObserver(e=>{vis=e[0].isIntersecting; last=performance.now();}).observe(cv);
+  if('IntersectionObserver' in window) new IntersectionObserver(e=>{vis=e[0].isIntersecting; last=performance.now(); wake();}).observe(cv);
   function size(){ const r=cv.getBoundingClientRect(); if(!r.width||!r.height) return false;
     if(Math.abs(r.width-W)>1||Math.abs(r.height-H)>1){ W=r.width; H=r.height; dpr=Math.min(devicePixelRatio||1,2); cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
       CX=W/2; CY=H/2; R=Math.min(H*.4,W*.28); CAM=R*3.8; U=R/250; } return true; }
@@ -1179,10 +1239,15 @@ af.addEventListener('submit',async e=>{
     ctx.fillStyle='#e2e2e2'; ctx.font='700 '+Math.round(R*.075)+'px '+FONT; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('CMD',CX,CY+1);
     for(const i of order){ if(PZ[i]>=0) block(i,cs); } }
   function block(i,cs){ const s=cs*PKs[i]; cube(PX[i],PY[i]+s*.1,s,pg[i]>.15?ORG:GREY,PZ[i]<0?.55:1); }
+  let raf=0;
+  function wake(){ if(!raf&&vis&&!document.hidden){ last=performance.now(); raf=requestAnimationFrame(frame); } }
+  document.addEventListener('visibilitychange',wake);
   function frame(now){
-    requestAnimationFrame(frame);
+    raf=0;
+    if(!vis||document.hidden) return;
+    raf=requestAnimationFrame(frame);
     const dt=Math.min(.05,(now-last)/1000); last=now;
-    if(!vis||!size()) return;
+    if(!size()) return;
     ang+=dt*.12; spin+=dt*.45; ca=Math.cos(ang); sa=Math.sin(ang); cp=Math.cos(.42); sp=Math.sin(.42);
     for(let i=0;i<NS;i++){ rot(sx[i],sy[i],sz[i],tmp); SZ[i]=tmp[2]; pv(tmp[0]*R,tmp[1]*R,tmp[2]*R); SX[i]=gx; SY[i]=gy; SK[i]=gk; SW[i*3]=tmp[0]*R; SW[i*3+1]=tmp[1]*R; SW[i*3+2]=tmp[2]*R; }
     for(let k=0;k<NL;k++){ rot(lmx[k],lmy[k],lmz[k],tmp); LZ[k]=tmp[2]; pv(tmp[0]*R*1.1,tmp[1]*R*1.1,tmp[2]*R*1.1); LCX[k]=gx; LCY[k]=gy; }
@@ -1221,7 +1286,7 @@ af.addEventListener('submit',async e=>{
     if(now-idle>2800){ idle=now; RG.push({s:-1,l:.2,pi:(rnd()*NP)|0}); }
     for(let i=0;i<NP;i++) pg[i]=Math.max(0,pg[i]-dt*1.6);
   }
-  requestAnimationFrame(frame);
+  wake();
 })();
 /* flip cards */
 function toggleFc(c){const on=c.classList.toggle('flipped');c.setAttribute('aria-pressed',String(on));}
